@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "hooks": {
+    "postToolUse": [
+      { "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .claude/hooks/php-lint.ps1 -Mode cursor", "matcher": "Write|StrReplace|Edit|MultiEdit" },
+      { "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .claude/hooks/security-check.ps1 -Mode cursor", "matcher": "Write|StrReplace|Edit|MultiEdit" }
+    ],
+    "beforeShellExecution": [
+      { "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .claude/hooks/commit-check.ps1 -Mode cursor", "matcher": "git" }
+    ]
+  }
+}

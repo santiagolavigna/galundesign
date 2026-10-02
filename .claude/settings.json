@@ -1,0 +1,21 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .claude/hooks/php-lint.ps1 -Mode claude" },
+          { "type": "command", "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .claude/hooks/security-check.ps1 -Mode claude" }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .claude/hooks/commit-check.ps1 -Mode claude" }
+        ]
+      }
+    ]
+  }
+}
