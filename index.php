@@ -23,6 +23,7 @@ $works = [
         'width' => 720,
         'height' => 1280,
         'layout' => 'reel',
+        'url' => $instagram,
         'alt' => 'Pieza negra con un círculo hueso partido por una línea vertical',
     ],
     [
@@ -32,6 +33,7 @@ $works = [
         'width' => 720,
         'height' => 1280,
         'layout' => 'reel',
+        'url' => $instagram,
         'alt' => 'Impresión con papel rojo rasgado, trama de puntos y una barra chartreuse',
     ],
     [
@@ -41,6 +43,7 @@ $works = [
         'width' => 720,
         'height' => 1280,
         'layout' => 'reel',
+        'url' => $instagram,
         'alt' => 'Forma de metal líquido sobre negro, con reflejos chartreuse y hueso',
     ],
     [
@@ -50,6 +53,7 @@ $works = [
         'width' => 1280,
         'height' => 720,
         'layout' => 'wide',
+        'url' => $instagram,
         'alt' => 'Habitación oscura cortada por una línea vertical de luz chartreuse',
     ],
     [
@@ -59,6 +63,7 @@ $works = [
         'width' => 1152,
         'height' => 864,
         'layout' => 'table',
+        'url' => $instagram,
         'alt' => 'Mesa de estudio con papeles, una lámina geométrica y una regla',
     ],
     [
@@ -68,7 +73,36 @@ $works = [
         'width' => 720,
         'height' => 1280,
         'layout' => 'reel',
+        'url' => $instagram,
         'alt' => 'Tinta negra en agua con un punto de pigmento chartreuse',
+    ],
+];
+
+$clients = [
+    [
+        'name' => 'Nombre del artista',
+        'text' => 'Una frase sobre quién es y qué se hizo juntos.',
+        'slides' => [
+            ['src' => 'assets/img/demo/work-01.webp', 'width' => 720, 'height' => 1280, 'alt' => 'Pieza negra con un círculo partido por una línea'],
+            ['src' => 'assets/img/demo/work-02.webp', 'width' => 720, 'height' => 1280, 'alt' => 'Impresión roja con trama de puntos'],
+            ['src' => 'assets/img/demo/work-03.webp', 'width' => 720, 'height' => 1280, 'alt' => 'Forma de metal líquido sobre negro'],
+        ],
+    ],
+    [
+        'name' => 'Nombre del artista',
+        'text' => 'Otra línea corta: el proyecto, el disco o la campaña.',
+        'slides' => [
+            ['src' => 'assets/img/demo/work-06.webp', 'width' => 1280, 'height' => 720, 'alt' => 'Línea de luz chartreuse en una habitación oscura'],
+            ['src' => 'assets/img/demo/work-05.webp', 'width' => 1152, 'height' => 864, 'alt' => 'Mesa de estudio con una lámina geométrica'],
+        ],
+    ],
+    [
+        'name' => 'Nombre del artista',
+        'text' => 'Se reemplaza por el texto real de cada cliente.',
+        'slides' => [
+            ['src' => 'assets/img/demo/work-04.webp', 'width' => 720, 'height' => 1280, 'alt' => 'Tinta negra con un punto chartreuse'],
+            ['src' => 'assets/img/demo/work-01.webp', 'width' => 720, 'height' => 1280, 'alt' => 'Pieza negra con un círculo partido por una línea'],
+        ],
     ],
 ];
 ?>
@@ -99,11 +133,13 @@ $works = [
         <a class="logo" href="#intro"><?= e($brand) ?></a>
         <nav class="site-nav" aria-label="Secciones">
             <a href="#trabajos">Trabajos</a>
+            <a href="#clientes">Clientes</a>
             <a href="#contacto">Contacto</a>
         </nav>
     </header>
 
     <section class="hero" id="intro" aria-label="Introducción">
+        <canvas class="hero__scene" id="hero-scene" aria-hidden="true"></canvas>
         <img class="hero__still" src="<?= e($intro) ?>" width="864" height="1152" alt="Retrato editorial de prueba para la intro de Galun Design">
         <div class="hero__mark">
             <p class="eyebrow">Estudio</p>
@@ -136,8 +172,8 @@ $works = [
                 <p>Selección</p>
             </div>
             <div class="works__grid">
-                <?php foreach ($works as $i => $work): ?>
-                    <figure class="work work--<?= e($work['layout']) ?>" style="--d: <?= (int) (($i % 3) * 80) ?>ms">
+                <?php foreach ($works as $work): ?>
+                    <a class="work work--<?= e($work['layout']) ?>" href="<?= e($work['url']) ?>" target="_blank" rel="noopener noreferrer">
                         <div class="work__frame">
                             <div class="work__pan">
                                 <img
@@ -149,11 +185,46 @@ $works = [
                                 >
                             </div>
                         </div>
-                        <figcaption>
+                        <p class="work__meta">
                             <span><?= e($work['title']) ?></span>
                             <span><?= e($work['index']) ?></span>
-                        </figcaption>
-                    </figure>
+                        </p>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </section>
+
+        <section class="clients" id="clientes" aria-labelledby="clientes-titulo">
+            <div class="works__head">
+                <h2 id="clientes-titulo">Algunos de nuestros clientes</h2>
+                <p>Artistas</p>
+            </div>
+            <div class="clients__grid">
+                <?php foreach ($clients as $client): ?>
+                    <article class="client">
+                        <div class="client__carousel">
+                            <div class="client__track" tabindex="0">
+                                <?php foreach ($client['slides'] as $slide): ?>
+                                    <img
+                                        src="<?= e($slide['src']) ?>"
+                                        width="<?= (int) $slide['width'] ?>"
+                                        height="<?= (int) $slide['height'] ?>"
+                                        alt="<?= e($slide['alt']) ?>"
+                                        loading="lazy"
+                                    >
+                                <?php endforeach; ?>
+                            </div>
+                            <button class="client__nav client__nav--prev" type="button" aria-label="Foto anterior">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 L8 12 L15 19"/></svg>
+                            </button>
+                            <button class="client__nav client__nav--next" type="button" aria-label="Foto siguiente">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19"/></svg>
+                            </button>
+                            <p class="client__count" aria-hidden="true">01 / <?= e(str_pad((string) count($client['slides']), 2, '0', STR_PAD_LEFT)) ?></p>
+                        </div>
+                        <h3><?= e($client['name']) ?></h3>
+                        <p><?= e($client['text']) ?></p>
+                    </article>
                 <?php endforeach; ?>
             </div>
         </section>
@@ -176,10 +247,19 @@ $works = [
 
     <footer class="site-footer">
         <p><?= e($brand) ?></p>
+        <p class="site-credit">Desarrollado por <a href="https://www.lavigna360.com" target="_blank" rel="noopener noreferrer">www.lavigna360.com</a></p>
     </footer>
 
     <a class="dock" href="<?= e($whatsappHref) ?>" target="_blank" rel="noopener noreferrer">WhatsApp</a>
 
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
+        }
+    }
+    </script>
+    <script type="module" src="assets/js/hero-3d.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js" defer></script>
     <script src="assets/js/intro.js" defer></script>

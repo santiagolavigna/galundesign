@@ -49,12 +49,13 @@ Detalle de columnas: ver sección «Esquema» más abajo. Motor InnoDB, `utf8mb4
 
 ## Reglas de negocio importantes
 
-- La página pública tiene cuatro momentos y nada más: intro, presentación corta, trabajos, contacto.
+- La página pública tiene cinco momentos: intro, presentación corta, trabajos, clientes y contacto.
 - El contacto no es un formulario. Son links: WhatsApp (con mensaje precargado) y redes.
 - Los trabajos los carga el diseñador desde el backoffice. La home muestra solo `is_published = 1`, orden `sort_order ASC, id DESC`.
 - En la landing de prueba los trabajos son imágenes en formato reel (9:16) y alguna horizontal. No se sube video: en un hosting chico pesa y tarda. Cuando exista el backoffice, cada pieza sigue siendo una imagen; el video queda fuera hasta que haga falta.
 - Contacto público: WhatsApp +54 9 2346 57-1207 (`wa.me/5492346571207`) e Instagram https://www.instagram.com/galun.psd/
-- Las piezas no enlazan a Instagram. El perfil no trae la URL de cada post, y el embed oficial (hace falta `instagram.com/p/...`) muestra el widget blanco de Instagram, fuera de esta página. Cuando haya backoffice, cada trabajo puede guardar el link de su publicación y abrir esa URL. No se incrusta el widget.
+- Cada trabajo es un enlace a su publicación de Instagram. Hoy apuntan al perfil `https://www.instagram.com/galun.psd/` hasta tener la URL de cada post (`instagram.com/p/...`). No se incrusta el widget de Instagram.
+- La sección de clientes muestra, por persona, un carrusel de fotos, el nombre y una frase. Los textos actuales son de relleno.
 - No hay precios, no hay cuentas de clientes, no hay comentarios.
 - Idioma de la interfaz: español.
 - Un solo usuario admin. No hay roles.
