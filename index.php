@@ -6,6 +6,14 @@ function e(string $value): string
     return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 }
 
+function asset(string $path): string
+{
+    $full = __DIR__ . '/' . $path;
+    $version = is_file($full) ? (string) filemtime($full) : '1';
+
+    return $path . '?v=' . $version;
+}
+
 $brand = 'Galun Design';
 $instagram = 'https://www.instagram.com/galun.psd/';
 $whatsappDisplay = '+54 9 2346 57-1207';
@@ -127,7 +135,7 @@ $visuales = [
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Syne:wght@600;700&family=Unbounded:wght@700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="<?= e(asset('assets/css/app.css')) ?>">
     <script>
         if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             document.documentElement.classList.add('is-reveal');
@@ -317,6 +325,6 @@ $visuales = [
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js" defer></script>
-    <script src="assets/js/intro.js" defer></script>
+    <script src="<?= e(asset('assets/js/intro.js')) ?>" defer></script>
 </body>
 </html>
