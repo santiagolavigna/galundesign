@@ -31,6 +31,7 @@ $clients = [
     ['name' => 'Candu Dominguez', 'handle' => '@candu_dominguez', 'mark' => 'CD', 'photo' => 'assets/img/clients/candu_dominguez.jpg', 'url' => 'https://www.instagram.com/candu_dominguez/'],
     ['name' => 'Nicole Fernandez', 'handle' => '@__nicolefernandez', 'mark' => 'NF', 'photo' => 'assets/img/clients/__nicolefernandez.jpg', 'url' => 'https://www.instagram.com/__nicolefernandez/'],
     ['name' => 'Lali DJ', 'handle' => '@lali__dj', 'mark' => 'LD', 'photo' => 'assets/img/clients/lali__dj.jpg', 'url' => 'https://www.instagram.com/lali__dj/'],
+    ['name' => 'Lola Bottini', 'handle' => '@lolabottini.dj', 'mark' => 'LB', 'photo' => 'assets/img/clients/lolabottini.jpg', 'url' => 'https://www.instagram.com/lolabottini.dj/'],
     ['name' => 'Frenesi Fiesta', 'handle' => '@frenesi_fiesta', 'mark' => 'FF', 'photo' => 'assets/img/clients/frenesi_fiesta.jpg', 'url' => 'https://www.instagram.com/frenesi_fiesta/'],
     ['name' => 'Boveda Fiesta', 'handle' => '@boveda____', 'mark' => 'BF', 'photo' => 'assets/img/clients/boveda____.jpg', 'url' => 'https://www.instagram.com/boveda____/'],
 ];
@@ -120,6 +121,15 @@ $visuales = [
         'height' => 960,
         'alt' => 'Visual de Candu Dominguez',
         'url' => $candu,
+    ],
+    [
+        'title' => 'Lola Bottini',
+        'video' => 'assets/media/lola.mp4',
+        'poster' => 'assets/media/lola.jpg',
+        'width' => 1920,
+        'height' => 960,
+        'alt' => 'Visual de Lola Bottini',
+        'url' => 'https://www.instagram.com/lolabottini.dj/',
     ],
 ];
 

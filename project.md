@@ -56,11 +56,11 @@ Detalle de columnas: ver sección «Esquema» más abajo. Motor InnoDB, `utf8mb4
 - Contacto público: WhatsApp +54 9 2346 57-1207 (`wa.me/5492346571207`) e Instagram https://www.instagram.com/galun.psd/
 - Cada trabajo es un enlace a su publicación de Instagram. Hoy apuntan al perfil `https://www.instagram.com/galun.psd/` hasta tener la URL de cada post (`instagram.com/p/...`). No se incrusta el widget de Instagram.
 - Trabajos usa los archivos de `assets/assets-web-gd/`: destacado Fuego x Soho; Eliastom Kick (Amor de su cama, Componemos con Lauta, Zaina x Tomhouse); Eventos (Perro Primo, Tomas Marenzana, Frenesi); Historias (Fuego x Soho y Fuego x El Club).
-- Visuales son los mp4 de esa carpeta, comprimidos en `assets/media/` (Lali DJ, Lali 360, Luciana Idiart, Candu). Se reproducen en mute al entrar en pantalla.
+- Visuales son los mp4 comprimidos en `assets/media/` (Lali DJ, Lali 360, Luciana Idiart, Candu, Lola Bottini). Se reproducen en mute al entrar en pantalla.
 - La portada no usa la foto. El fondo es un degradado blanco y negro hecho en CSS, con grano. El título usa Unbounded, más grande. Al scrollear, «Bienvenido a» y «Galundesign» giran en sentido contrario.
 - Clientes se muestran en círculos con la foto de perfil actual, el nombre y el @. Las fotos están en `assets/img/clients/` (150 px, copiadas del perfil público). Si falta el archivo, el círculo muestra las iniciales.
 - No llegó pieza de Perreo Macarena ni de Nicole Fernandez. `TOMI.png` es la misma fecha que el flyer de Tomas Marenzana; en la grilla quedó el flyer.
-- Clientes son seis perfiles de Instagram (Elias Tom, Candu Dominguez, Nicole Fernandez, Lali DJ, Frenesi Fiesta, Boveda Fiesta). Cada nombre abre ese perfil.
+- Clientes son siete perfiles de Instagram (Elias Tom, Candu Dominguez, Nicole Fernandez, Lali DJ, Lola Bottini, Frenesi Fiesta, Boveda Fiesta). Cada nombre abre ese perfil.
 - No hay precios, no hay cuentas de clientes, no hay comentarios.
 - Idioma de la interfaz: español.
 - Un solo usuario admin. No hay roles.
