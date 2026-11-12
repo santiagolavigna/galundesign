@@ -122,6 +122,12 @@ $visuales = [
         'url' => $candu,
     ],
 ];
+
+foreach ($visuales as &$visual) {
+    $visual['video'] = asset($visual['video']);
+    $visual['poster'] = asset($visual['poster']);
+}
+unset($visual);
 ?>
 <!DOCTYPE html>
 <html lang="es">
