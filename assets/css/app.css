@@ -722,6 +722,18 @@ html.is-reveal.is-playing .hero__down { visibility: visible; }
     .band--trio .band__grid { grid-template-columns: repeat(3, 1fr); }
     .band--pair .band__grid { grid-template-columns: repeat(2, 1fr); }
 
+    #trabajos .band--trio .band__grid {
+        grid-template-columns: repeat(3, minmax(0, 300px));
+        justify-content: start;
+    }
+
+    #trabajos .band--pair .band__grid {
+        grid-template-columns: repeat(2, minmax(0, 250px));
+        justify-content: start;
+    }
+
+    #trabajos .feature__frame { max-width: 480px; }
+
     .client-list {
         grid-template-columns: repeat(3, 1fr);
         gap: 22px 16px;
@@ -755,6 +767,13 @@ html.is-reveal.is-playing .hero__down { visibility: visible; }
 @media (max-width: 799px) {
     .hero__down { bottom: 112px; }
     .site-footer { padding-bottom: 96px; }
+
+    #trabajos .feature__frame { width: min(100%, 250px); }
+
+    #trabajos .band__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px 12px;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -55,7 +55,7 @@ Detalle de columnas: ver sección «Esquema» más abajo. Motor InnoDB, `utf8mb4
 - En la landing de prueba los trabajos son imágenes en formato reel (9:16) y alguna horizontal. No se sube video: en un hosting chico pesa y tarda. Cuando exista el backoffice, cada pieza sigue siendo una imagen; el video queda fuera hasta que haga falta.
 - Contacto público: WhatsApp +54 9 2346 57-1207 (`wa.me/5492346571207`) e Instagram https://www.instagram.com/galun.psd/
 - Cada trabajo es un enlace a su publicación de Instagram. Hoy apuntan al perfil `https://www.instagram.com/galun.psd/` hasta tener la URL de cada post (`instagram.com/p/...`). No se incrusta el widget de Instagram.
-- Trabajos usa los archivos de `assets/assets-web-gd/`: destacado Fuego x Soho; Ellasom / Kick (Amor de su cama, Componemos con Lauta, Zaina x Tomhouse); Eventos (Perro Primo, Tomas Marenzana, Frenesi); Historias (Fuego x Soho y Fuego x El Club).
+- Trabajos usa los archivos de `assets/assets-web-gd/`: destacado Fuego x Soho; Eliastom Kick (Amor de su cama, Componemos con Lauta, Zaina x Tomhouse); Eventos (Perro Primo, Tomas Marenzana, Frenesi); Historias (Fuego x Soho y Fuego x El Club).
 - Visuales son los mp4 de esa carpeta, comprimidos en `assets/media/` (Lali DJ, Lali 360, Luciana Idiart, Candu). Se reproducen en mute al entrar en pantalla.
 - La portada no usa la foto. El fondo es un degradado blanco y negro hecho en CSS, con grano. El título usa Unbounded, más grande. Al scrollear, «Bienvenido a» y «Galundesign» giran en sentido contrario.
 - Clientes se muestran en círculos con la foto de perfil actual, el nombre y el @. Las fotos están en `assets/img/clients/` (150 px, copiadas del perfil público). Si falta el archivo, el círculo muestra las iniciales.
