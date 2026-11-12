@@ -7,8 +7,8 @@
 
 - **Cliente**: Galun Design
 - **Descripción**: landing de una sola página, visualmente extrema y corta. Intro a pantalla completa con foto que se parte al medio al entrar, bloque de últimos trabajos (fotos y reels cargados desde un backoffice) y franja de contacto (WhatsApp y redes). Sin blog, sin tienda, sin formulario de leads.
-- **URL producción**: pendiente
-- **Hosting**: pendiente (XAMPP local; destino típico Hostinger / VPS)
+- **URL producción**: https://galundesign.com
+- **Hosting**: Hostinger compartido. El sitio se publica solo al pushear `main` en GitHub (`santiagolavigna/galundesign`). Credenciales en hPanel, no en el repo.
 
 ## Stack
 
@@ -89,8 +89,8 @@ En móvil el corte es el mismo y el nombre queda legible a 375px.
 
 ## Deploys
 
-- Último deploy: ninguno
-- Procedimiento: ver `DEPLOY.md` cuando exista. Antes de subir: dump de la DB si ya hay trabajos cargados.
+- Último deploy: 12 nov 2026, https://galundesign.com (landing estática, sin base)
+- Procedimiento: push a `main`. Hostinger despliega el repo en el document root. No hay base de producción en este corte, así que no hubo dump.
 
 ## Pendientes / deuda técnica
 

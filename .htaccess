@@ -1,0 +1,4 @@
+# El panel ya fuerza HTTPS. Estos archivos no se sirven.
+<FilesMatch "^(project\.md|AGENTS\.md|CLAUDE\.md|config\.local\.php|config\.example\.php)$">
+    Require all denied
+</FilesMatch>
