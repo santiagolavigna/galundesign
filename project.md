@@ -49,13 +49,18 @@ Detalle de columnas: ver sección «Esquema» más abajo. Motor InnoDB, `utf8mb4
 
 ## Reglas de negocio importantes
 
-- La página pública tiene cinco momentos: intro, presentación corta, trabajos, clientes y contacto.
+- La página pública tiene cinco momentos: portada, trabajos (destacado + grupos), visuales, clientes y contacto.
 - El contacto no es un formulario. Son links: WhatsApp (con mensaje precargado) y redes.
 - Los trabajos los carga el diseñador desde el backoffice. La home muestra solo `is_published = 1`, orden `sort_order ASC, id DESC`.
 - En la landing de prueba los trabajos son imágenes en formato reel (9:16) y alguna horizontal. No se sube video: en un hosting chico pesa y tarda. Cuando exista el backoffice, cada pieza sigue siendo una imagen; el video queda fuera hasta que haga falta.
 - Contacto público: WhatsApp +54 9 2346 57-1207 (`wa.me/5492346571207`) e Instagram https://www.instagram.com/galun.psd/
 - Cada trabajo es un enlace a su publicación de Instagram. Hoy apuntan al perfil `https://www.instagram.com/galun.psd/` hasta tener la URL de cada post (`instagram.com/p/...`). No se incrusta el widget de Instagram.
-- La sección de clientes muestra, por persona, un carrusel de fotos, el nombre y una frase. Los textos actuales son de relleno.
+- Trabajos usa los archivos de `assets/assets-web-gd/`: destacado Fuego x Soho; Ellasom / Kick (Amor de su cama, Componemos con Lauta, Zaina x Tomhouse); Eventos (Perro Primo, Tomas Marenzana, Frenesi); Historias (Fuego x Soho y Fuego x El Club).
+- Visuales son los mp4 de esa carpeta, comprimidos en `assets/media/` (Lali DJ, Lali 360, Luciana Idiart, Candu). Se reproducen en mute al entrar en pantalla.
+- La portada no usa la foto. El fondo es un degradado blanco y negro hecho en CSS, con grano. El título usa Unbounded, más grande. Al scrollear, «Bienvenido a» y «Galundesign» giran en sentido contrario.
+- Clientes se muestran en círculos con la foto de perfil actual, el nombre y el @. Las fotos están en `assets/img/clients/` (150 px, copiadas del perfil público). Si falta el archivo, el círculo muestra las iniciales.
+- No llegó pieza de Perreo Macarena ni de Nicole Fernandez. `TOMI.png` es la misma fecha que el flyer de Tomas Marenzana; en la grilla quedó el flyer.
+- Clientes son seis perfiles de Instagram (Elias Tom, Candu Dominguez, Nicole Fernandez, Lali DJ, Frenesi Fiesta, Boveda Fiesta). Cada nombre abre ese perfil.
 - No hay precios, no hay cuentas de clientes, no hay comentarios.
 - Idioma de la interfaz: español.
 - Un solo usuario admin. No hay roles.
@@ -68,14 +73,13 @@ Dirección: **corte editorial nocturno**. Fondo tinta, tipo display contemporán
 
 La intro, en concreto:
 
-1. Foto a pantalla completa (la que pida el diseñador; en la prueba, una imagen generada).
-2. Al cargar, la foto entra con un leve zoom inverso.
-3. Una línea vertical de luz recorre el centro.
-4. La imagen se parte en dos mitades que se abren hacia los costados y dejan ver el nombre en el negro del medio.
-5. Las mitades se retiran y queda la landing scrolleable.
-6. Con `prefers-reduced-motion: reduce`: foto quieta, nombre visible, sin corte.
+1. La pantalla se parte en vertical: una línea chartreuse y las dos mitades se abren. La navegación sigue visible y el scroll no se bloquea.
+2. «Bienvenido a» y «Galundesign» salen del corte, letra por letra, del centro hacia afuera.
+3. El título no viaja al logo.
+4. Si la animación no termina, a los 4,5 s el corte se va y el texto queda completo.
+5. Con `prefers-reduced-motion: reduce`: sin corte y sin revelado. El texto está completo.
 
-En móvil el corte es el mismo eje vertical. Las mitades se abren menos (no se salen del viewport de forma brusca) y el nombre queda legible a 375px.
+En móvil el corte es el mismo y el nombre queda legible a 375px.
 
 ## Credenciales
 

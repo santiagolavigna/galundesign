@@ -47,18 +47,17 @@ El acento `#d6ff3f` se usa en tres lugares: la línea del corte, el botón de Wh
 ## Layout
 
 1. **Intro fija al entrar** (100dvh). No es un hero con botón «ver trabajos» encima de un stock. Es la foto, el corte, el nombre.
-2. **Presentación**: una línea de oficio, alineada a la izquierda, mucho aire. Sin iconos de servicios.
-3. **Trabajos**: tira editorial. En desktop, mezcla de piezas 9:16 (reels) altas y alguna 4:5. En 375px, una columna, la pieza a ancho completo, ratio respetado (`aspect-ratio`, sin recorte sorpresa). Hover en desktop: la imagen escala 1.04 dentro del marco (`overflow: hidden`) y, si es video, reproduce muted. En touch: tap abre el video con controles.
+2. **Trabajos**: título display «Trabajos.» con la frase a la derecha en desktop. Abajo, un proyecto destacado (foto + rótulo) y grupos en grilla: tres columnas y dos columnas. En 375px, una columna.
+3. **Visuales**: segundo título display y dos piezas horizontales. Hover: la foto escala 1.04 dentro del marco. El scroll mueve el título en perspectiva y hace un paneo corto dentro de cada foto.
 4. **Contacto**: fila de links grandes (WhatsApp, Instagram, TikTok, Behance, email). En móvil, WhatsApp también queda como barra fija inferior.
 
-Header mínimo: marca a la izquierda, «Trabajos» y «Contacto» a la derecha. Al hacer scroll, fondo `--color-bg` al 80% con `backdrop-filter: blur(14px)`.
+Header mínimo: marca a la izquierda, enlaces a la derecha. El fondo del header no corta: es un velo con blur que se deshace hacia abajo. El mismo recurso, más largo, une el hero con Trabajos.
 
 ## Motion
 
-- Intro: ver `project.md` (zoom, línea, split en `translateX`, nombre en opacidad). Duración total ~2.4s. Ease-out. Solo `transform` y `opacity`.
-- Después del corte, el header y la frase entran con un stagger de 80ms.
+- Intro: la pantalla se parte en vertical y el título sale del centro, letra por letra. No viaja al logo. Unos 2.2s. Si falla, el corte se retira solo.
 - Las piezas aparecen al entrar en viewport (IntersectionObserver o ScrollTrigger), stagger 70ms, 0.5s.
-- `prefers-reduced-motion: reduce`: sin split, sin zoom, sin stagger. Contenido visible de una.
+- `prefers-reduced-motion: reduce`: sin máquina de escribir. El título está completo.
 
 ## Qué no hacer
 

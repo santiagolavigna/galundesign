@@ -7,102 +7,111 @@ function e(string $value): string
 }
 
 $brand = 'Galun Design';
-$tagline = 'Dirección visual para artistas que están sonando ahora.';
 $instagram = 'https://www.instagram.com/galun.psd/';
 $whatsappDisplay = '+54 9 2346 57-1207';
 $whatsappHref = 'https://wa.me/5492346571207?text=' . rawurlencode(
     'Hola Galun, vi la página y quiero consultar por un trabajo.'
 );
-$intro = 'assets/img/demo/intro-split.webp';
+$elias = 'https://www.instagram.com/eliastomok/';
+$candu = 'https://www.instagram.com/candu_dominguez/';
+$lali = 'https://www.instagram.com/lali__dj/';
+$frenesi = 'https://www.instagram.com/frenesi_fiesta/';
+$boveda = 'https://www.instagram.com/boveda____/';
 
-$works = [
+$clients = [
+    ['name' => 'Elias Tom', 'handle' => '@eliastomok', 'mark' => 'ET', 'photo' => 'assets/img/clients/eliastomok.jpg', 'url' => 'https://www.instagram.com/eliastomok/'],
+    ['name' => 'Candu Dominguez', 'handle' => '@candu_dominguez', 'mark' => 'CD', 'photo' => 'assets/img/clients/candu_dominguez.jpg', 'url' => 'https://www.instagram.com/candu_dominguez/'],
+    ['name' => 'Nicole Fernandez', 'handle' => '@__nicolefernandez', 'mark' => 'NF', 'photo' => 'assets/img/clients/__nicolefernandez.jpg', 'url' => 'https://www.instagram.com/__nicolefernandez/'],
+    ['name' => 'Lali DJ', 'handle' => '@lali__dj', 'mark' => 'LD', 'photo' => 'assets/img/clients/lali__dj.jpg', 'url' => 'https://www.instagram.com/lali__dj/'],
+    ['name' => 'Frenesi Fiesta', 'handle' => '@frenesi_fiesta', 'mark' => 'FF', 'photo' => 'assets/img/clients/frenesi_fiesta.jpg', 'url' => 'https://www.instagram.com/frenesi_fiesta/'],
+    ['name' => 'Boveda Fiesta', 'handle' => '@boveda____', 'mark' => 'BF', 'photo' => 'assets/img/clients/boveda____.jpg', 'url' => 'https://www.instagram.com/boveda____/'],
+];
+
+$lede = 'Diseño gráfico para artistas, lanzamientos y eventos.';
+
+$poster = static function (string $file, int $width, int $height, string $alt, string $url): array {
+    return [
+        'image' => 'assets/assets-web-gd/' . rawurlencode($file),
+        'width' => $width,
+        'height' => $height,
+        'alt' => $alt,
+        'url' => $url,
+    ];
+};
+
+$featured = [
+    'kicker' => 'Proyecto destacado',
+    'title' => 'Fuego x Soho',
+] + $poster('FUEGOFEED2.jpg.jpeg', 1080, 1350, 'Flyer de Fuego x Soho, sábado 7 de noviembre', $instagram);
+
+$groups = [
     [
-        'title' => 'Corte',
-        'index' => '01',
-        'image' => 'assets/img/demo/work-01.webp',
-        'width' => 720,
-        'height' => 1280,
-        'layout' => 'reel',
-        'url' => $instagram,
-        'alt' => 'Pieza negra con un círculo hueso partido por una línea vertical',
+        'label' => 'Ellasom / Kick',
+        'layout' => 'trio',
+        'frame' => 'story',
+        'items' => [
+            ['title' => 'Amor de su cama'] + $poster('ELIASCUMBIA+DOBLEP.jpg.jpeg', 1080, 1920, 'Flyer de Amor de su cama, Eliastomok con Doble P y Cumbia Rocha', $elias),
+            ['title' => 'Componemos con Lauta'] + $poster('LAUTAFTELIAS.jpg.jpeg', 1080, 1920, 'Flyer de Componemos con Lauta, Eliastomok y Lauta', $elias),
+            ['title' => 'Zaina x Tomhouse'] + $poster('ZAINACOLOR2.jpg.jpeg', 1080, 1920, 'Flyer de Zaina x Tomhouse en Kick', $elias),
+        ],
     ],
     [
-        'title' => 'Rojo',
-        'index' => '02',
-        'image' => 'assets/img/demo/work-02.webp',
-        'width' => 720,
-        'height' => 1280,
-        'layout' => 'reel',
-        'url' => $instagram,
-        'alt' => 'Impresión con papel rojo rasgado, trama de puntos y una barra chartreuse',
+        'label' => 'Eventos',
+        'layout' => 'trio',
+        'frame' => 'feed',
+        'items' => [
+            ['title' => 'Perro Primo'] + $poster('FEED1.jpg.jpeg', 1080, 1350, 'Flyer de Perro Primo en Frenesi, sábado 17.10', $frenesi),
+            ['title' => 'Tomas Marenzana'] + $poster('FEED1xfrenesi.jpg.jpeg', 1080, 1350, 'Flyer de Tomas Marenzana en Bóveda, sábado 14 de noviembre', $boveda),
+            ['title' => 'Frenesi'] + $poster('FEEd2.png', 1080, 1350, 'Flyer de Frenesi con Agustín García y Nahuel Salomone', $frenesi),
+        ],
     ],
     [
-        'title' => 'Cromo',
-        'index' => '03',
-        'image' => 'assets/img/demo/work-03.webp',
-        'width' => 720,
-        'height' => 1280,
-        'layout' => 'reel',
-        'url' => $instagram,
-        'alt' => 'Forma de metal líquido sobre negro, con reflejos chartreuse y hueso',
-    ],
-    [
-        'title' => 'Señal',
-        'index' => '04',
-        'image' => 'assets/img/demo/work-06.webp',
-        'width' => 1280,
-        'height' => 720,
-        'layout' => 'wide',
-        'url' => $instagram,
-        'alt' => 'Habitación oscura cortada por una línea vertical de luz chartreuse',
-    ],
-    [
-        'title' => 'Mesa',
-        'index' => '05',
-        'image' => 'assets/img/demo/work-05.webp',
-        'width' => 1152,
-        'height' => 864,
-        'layout' => 'table',
-        'url' => $instagram,
-        'alt' => 'Mesa de estudio con papeles, una lámina geométrica y una regla',
-    ],
-    [
-        'title' => 'Tinta',
-        'index' => '06',
-        'image' => 'assets/img/demo/work-04.webp',
-        'width' => 720,
-        'height' => 1280,
-        'layout' => 'reel',
-        'url' => $instagram,
-        'alt' => 'Tinta negra en agua con un punto de pigmento chartreuse',
+        'label' => 'Historias',
+        'layout' => 'pair',
+        'frame' => 'story',
+        'items' => [
+            ['title' => 'Fuego x Soho'] + $poster('FUEGOXSOHOHISTORIA.jpg.jpeg', 1080, 1920, 'Historia de Fuego x Soho', $instagram),
+            ['title' => 'Fuego x El Club'] + $poster('FUEGOXCLUB-HISTORIA.jpg.jpeg', 1080, 1920, 'Historia de Fuego x El Club, viernes 20.11', $instagram),
+        ],
     ],
 ];
 
-$clients = [
+$visuales = [
     [
-        'name' => 'Nombre del artista',
-        'text' => 'Una frase sobre quién es y qué se hizo juntos.',
-        'slides' => [
-            ['src' => 'assets/img/demo/work-01.webp', 'width' => 720, 'height' => 1280, 'alt' => 'Pieza negra con un círculo partido por una línea'],
-            ['src' => 'assets/img/demo/work-02.webp', 'width' => 720, 'height' => 1280, 'alt' => 'Impresión roja con trama de puntos'],
-            ['src' => 'assets/img/demo/work-03.webp', 'width' => 720, 'height' => 1280, 'alt' => 'Forma de metal líquido sobre negro'],
-        ],
+        'title' => 'Lali DJ',
+        'video' => 'assets/media/lali-logo.mp4',
+        'poster' => 'assets/media/lali-logo.jpg',
+        'width' => 1280,
+        'height' => 640,
+        'alt' => 'Visual de Lali DJ, logo con destellos',
+        'url' => $lali,
     ],
     [
-        'name' => 'Nombre del artista',
-        'text' => 'Otra línea corta: el proyecto, el disco o la campaña.',
-        'slides' => [
-            ['src' => 'assets/img/demo/work-06.webp', 'width' => 1280, 'height' => 720, 'alt' => 'Línea de luz chartreuse en una habitación oscura'],
-            ['src' => 'assets/img/demo/work-05.webp', 'width' => 1152, 'height' => 864, 'alt' => 'Mesa de estudio con una lámina geométrica'],
-        ],
+        'title' => 'Lali 360',
+        'video' => 'assets/media/lali-360.mp4',
+        'poster' => 'assets/media/lali-360.jpg',
+        'width' => 1280,
+        'height' => 640,
+        'alt' => 'Visual 360 de Lali DJ',
+        'url' => $lali,
     ],
     [
-        'name' => 'Nombre del artista',
-        'text' => 'Se reemplaza por el texto real de cada cliente.',
-        'slides' => [
-            ['src' => 'assets/img/demo/work-04.webp', 'width' => 720, 'height' => 1280, 'alt' => 'Tinta negra con un punto chartreuse'],
-            ['src' => 'assets/img/demo/work-01.webp', 'width' => 720, 'height' => 1280, 'alt' => 'Pieza negra con un círculo partido por una línea'],
-        ],
+        'title' => 'Luciana Idiart',
+        'video' => 'assets/media/luciana.mp4',
+        'poster' => 'assets/media/luciana.jpg',
+        'width' => 1280,
+        'height' => 640,
+        'alt' => 'Visual de Luciana Idiart',
+        'url' => $instagram,
+    ],
+    [
+        'title' => 'Candu',
+        'video' => 'assets/media/candu.mp4',
+        'poster' => 'assets/media/candu.jpg',
+        'width' => 1280,
+        'height' => 640,
+        'alt' => 'Visual de Candu Dominguez',
+        'url' => $candu,
     ],
 ];
 ?>
@@ -117,12 +126,18 @@ $clients = [
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Syne:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="preload" as="image" href="<?= e($intro) ?>">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&family=Syne:wght@600;700&family=Unbounded:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/app.css">
     <script>
         if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            document.documentElement.classList.add('is-intro');
+            document.documentElement.classList.add('is-reveal');
+            window.setTimeout(function () {
+                document.documentElement.classList.remove('is-reveal');
+                var hero = document.getElementById('intro');
+                if (hero) {
+                    hero.classList.add('is-open');
+                }
+            }, 4500);
         }
     </script>
 </head>
@@ -133,100 +148,148 @@ $clients = [
         <a class="logo" href="#intro"><?= e($brand) ?></a>
         <nav class="site-nav" aria-label="Secciones">
             <a href="#trabajos">Trabajos</a>
+            <a href="#visuales">Visuales</a>
             <a href="#clientes">Clientes</a>
             <a href="#contacto">Contacto</a>
         </nav>
     </header>
 
     <section class="hero" id="intro" aria-label="Introducción">
-        <canvas class="hero__scene" id="hero-scene" aria-hidden="true"></canvas>
-        <img class="hero__still" src="<?= e($intro) ?>" width="864" height="1152" alt="Retrato editorial de prueba para la intro de Galun Design">
+        <div class="hero__stage" aria-hidden="true">
+            <div class="hero__wash"></div>
+            <div class="hero__grain"></div>
+        </div>
+        <div class="hero__veil hero__veil--top" aria-hidden="true"></div>
+        <div class="hero__veil hero__veil--bottom" aria-hidden="true"></div>
+        <div class="intro" aria-hidden="true">
+            <div class="intro__half intro__half--left">
+                <div class="intro__media">
+                    <div class="hero__wash"></div>
+                    <div class="hero__grain"></div>
+                </div>
+            </div>
+            <div class="intro__half intro__half--right">
+                <div class="intro__media">
+                    <div class="hero__wash"></div>
+                    <div class="hero__grain"></div>
+                </div>
+            </div>
+            <div class="intro__slash"></div>
+        </div>
         <div class="hero__mark">
-            <p class="eyebrow">Estudio</p>
-            <h1>
-                <span class="hero__line hero__line--a">Galun</span>
-                <span class="hero__line hero__line--b">Design</span>
+            <h1 aria-label="Bienvenido a Galundesign">
+                <span class="hero__line hero__line--a">Bienvenido a</span>
+                <span class="hero__line hero__line--b">Galundesign</span>
             </h1>
+            <a class="hero__ig" href="<?= e($instagram) ?>" target="_blank" rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zm5 4.6A4.4 4.4 0 1 0 16.4 12 4.4 4.4 0 0 0 12 7.6zm0 7.2A2.8 2.8 0 1 1 14.8 12 2.8 2.8 0 0 1 12 14.8zM17.4 6.2a1 1 0 1 0 1 1 1 1 0 0 0-1-1z"/></svg>
+                @galun.psd
+                <svg class="hero__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm-1.2 14.2-3.5-3.5 1.4-1.4 2.1 2.1 4.6-4.6 1.4 1.4z"/></svg>
+            </a>
         </div>
         <a class="hero__down" href="#trabajos">Trabajos</a>
-
-        <div class="intro__half intro__half--left" aria-hidden="true">
-            <img class="intro__media" src="<?= e($intro) ?>" width="864" height="1152" alt="">
-        </div>
-        <div class="intro__half intro__half--right" aria-hidden="true">
-            <img class="intro__media" src="<?= e($intro) ?>" width="864" height="1152" alt="">
-        </div>
-        <div class="intro__slash" aria-hidden="true"></div>
     </section>
 
     <main id="contenido">
-        <section class="statement">
-            <p class="eyebrow">Diseño gráfico</p>
-            <h2><?= e($tagline) ?></h2>
-            <p class="lede">Identidad, portadas y piezas de campaña. Abajo, lo último.</p>
+        <section class="folio" id="trabajos" aria-labelledby="trabajos-titulo">
+            <div class="folio__head">
+                <h2 class="folio__title" id="trabajos-titulo">Trabajos.</h2>
+                <p class="folio__lede"><?= e($lede) ?></p>
+            </div>
+
+            <a class="feature" href="<?= e($featured['url']) ?>" target="_blank" rel="noopener noreferrer">
+                <div class="feature__frame">
+                    <div class="piece__pan">
+                        <img
+                            src="<?= e($featured['image']) ?>"
+                            width="<?= (int) $featured['width'] ?>"
+                            height="<?= (int) $featured['height'] ?>"
+                            alt="<?= e($featured['alt']) ?>"
+                        >
+                    </div>
+                </div>
+                <div class="feature__copy">
+                    <p class="feature__kicker"><?= e($featured['kicker']) ?></p>
+                    <p class="feature__title"><?= e($featured['title']) ?></p>
+                </div>
+            </a>
+
+            <?php foreach ($groups as $group): ?>
+                <div class="band band--<?= e($group['layout']) ?>">
+                    <p class="band__label"><?= e($group['label']) ?></p>
+                    <div class="band__grid">
+                        <?php foreach ($group['items'] as $item): ?>
+                            <a class="piece" href="<?= e($item['url']) ?>" target="_blank" rel="noopener noreferrer">
+                                <div class="piece__frame piece__frame--<?= e($group['frame']) ?>">
+                                    <div class="piece__pan">
+                                        <img
+                                            src="<?= e($item['image']) ?>"
+                                            width="<?= (int) $item['width'] ?>"
+                                            height="<?= (int) $item['height'] ?>"
+                                            alt="<?= e($item['alt']) ?>"
+                                            loading="lazy"
+                                        >
+                                    </div>
+                                </div>
+                                <p class="piece__title"><?= e($item['title']) ?></p>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </section>
 
-        <section class="works" id="trabajos" aria-labelledby="trabajos-titulo">
-            <div class="works__head">
-                <h2 id="trabajos-titulo">Últimos trabajos</h2>
-                <p>Selección</p>
-            </div>
-            <div class="works__grid">
-                <?php foreach ($works as $work): ?>
-                    <a class="work work--<?= e($work['layout']) ?>" href="<?= e($work['url']) ?>" target="_blank" rel="noopener noreferrer">
-                        <div class="work__frame">
-                            <div class="work__pan">
-                                <img
-                                    src="<?= e($work['image']) ?>"
-                                    width="<?= (int) $work['width'] ?>"
-                                    height="<?= (int) $work['height'] ?>"
-                                    alt="<?= e($work['alt']) ?>"
-                                    loading="lazy"
-                                >
-                            </div>
-                        </div>
-                        <p class="work__meta">
-                            <span><?= e($work['title']) ?></span>
-                            <span><?= e($work['index']) ?></span>
-                        </p>
-                    </a>
-                <?php endforeach; ?>
-            </div>
-        </section>
-
-        <section class="clients" id="clientes" aria-labelledby="clientes-titulo">
-            <div class="works__head">
-                <h2 id="clientes-titulo">Algunos de nuestros clientes</h2>
-                <p>Artistas</p>
-            </div>
-            <div class="clients__grid">
-                <?php foreach ($clients as $client): ?>
-                    <article class="client">
-                        <div class="client__carousel">
-                            <div class="client__track" tabindex="0">
-                                <?php foreach ($client['slides'] as $slide): ?>
-                                    <img
-                                        src="<?= e($slide['src']) ?>"
-                                        width="<?= (int) $slide['width'] ?>"
-                                        height="<?= (int) $slide['height'] ?>"
-                                        alt="<?= e($slide['alt']) ?>"
-                                        loading="lazy"
+        <section class="folio folio--visuales" id="visuales" aria-labelledby="visuales-titulo">
+            <h2 class="folio__title" id="visuales-titulo">Visuales.</h2>
+            <div class="band band--pair">
+                <div class="band__grid">
+                    <?php foreach ($visuales as $item): ?>
+                        <a class="piece piece--wide" href="<?= e($item['url']) ?>" target="_blank" rel="noopener noreferrer">
+                            <div class="piece__frame piece__frame--wide">
+                                <div class="piece__pan">
+                                    <video
+                                        class="piece__video"
+                                        poster="<?= e($item['poster']) ?>"
+                                        width="<?= (int) $item['width'] ?>"
+                                        height="<?= (int) $item['height'] ?>"
+                                        muted
+                                        loop
+                                        playsinline
+                                        preload="none"
+                                        aria-label="<?= e($item['alt']) ?>"
                                     >
-                                <?php endforeach; ?>
+                                        <source src="<?= e($item['video']) ?>" type="video/mp4">
+                                    </video>
+                                </div>
                             </div>
-                            <button class="client__nav client__nav--prev" type="button" aria-label="Foto anterior">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 L8 12 L15 19"/></svg>
-                            </button>
-                            <button class="client__nav client__nav--next" type="button" aria-label="Foto siguiente">
-                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19"/></svg>
-                            </button>
-                            <p class="client__count" aria-hidden="true">01 / <?= e(str_pad((string) count($client['slides']), 2, '0', STR_PAD_LEFT)) ?></p>
-                        </div>
-                        <h3><?= e($client['name']) ?></h3>
-                        <p><?= e($client['text']) ?></p>
-                    </article>
-                <?php endforeach; ?>
+                            <p class="piece__title"><?= e($item['title']) ?></p>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
             </div>
+        </section>
+
+        <section class="folio" id="clientes" aria-labelledby="clientes-titulo">
+            <h2 class="folio__title" id="clientes-titulo">Clientes.</h2>
+            <ul class="client-list">
+                <?php foreach ($clients as $client): ?>
+                    <li>
+                        <a href="<?= e($client['url']) ?>" target="_blank" rel="noopener noreferrer">
+                            <span class="client-card__photo">
+                                <?php if (is_file(__DIR__ . '/' . $client['photo'])): ?>
+                                    <img src="<?= e($client['photo']) ?>" alt="" width="150" height="150">
+                                <?php else: ?>
+                                    <?= e($client['mark']) ?>
+                                <?php endif; ?>
+                            </span>
+                            <span class="client-card__copy">
+                                <span class="client-card__name"><?= e($client['name']) ?></span>
+                                <span class="client-card__handle"><?= e($client['handle']) ?></span>
+                            </span>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
         </section>
 
         <section class="contact" id="contacto" aria-labelledby="contacto-titulo">
@@ -247,19 +310,11 @@ $clients = [
 
     <footer class="site-footer">
         <p><?= e($brand) ?></p>
-        <p class="site-credit">Desarrollado por <a href="https://www.lavigna360.com" target="_blank" rel="noopener noreferrer">www.lavigna360.com</a></p>
+        <p class="site-credit">Desarrollado por <a href="https://www.lavigna360.com" target="_blank" rel="noopener noreferrer">www.lavigna<span>360</span>.com</a></p>
     </footer>
 
     <a class="dock" href="<?= e($whatsappHref) ?>" target="_blank" rel="noopener noreferrer">WhatsApp</a>
 
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
-        }
-    }
-    </script>
-    <script type="module" src="assets/js/hero-3d.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js" defer></script>
     <script src="assets/js/intro.js" defer></script>
