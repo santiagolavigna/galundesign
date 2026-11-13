@@ -1,5 +1,10 @@
 # AI Development Kit
 .env
 config.local.php
+/uploads/**
+!/uploads/works/
+!/uploads/visuals/
+!/uploads/clients/
+!/uploads/**/.htaccess
 node_modules/
 .claude/settings.local.json

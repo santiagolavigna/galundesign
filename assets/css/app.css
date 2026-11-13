@@ -132,15 +132,47 @@ button {
 
 .site-nav a:hover { color: var(--color-accent); }
 
-@media (max-width: 520px) {
-    .logo { font-size: 12px; }
+.nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 12px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+}
 
-    .site-nav { gap: 0; }
+.nav-toggle:hover,
+.nav-toggle:focus-visible { color: var(--color-accent); }
+
+@media (max-width: 799px) {
+    .nav-toggle { display: inline-flex; }
+
+    .site-nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        padding: 8px var(--pad) 18px;
+        background: rgb(7 7 8 / 96%);
+    }
+
+    .site-header.is-open .site-nav { display: flex; }
 
     .site-nav a {
-        padding: 0 4px;
-        font-size: 10px;
-        letter-spacing: 0.02em;
+        font-size: 14px;
+        letter-spacing: 0.12em;
     }
 }
 
@@ -593,6 +625,72 @@ html.is-reveal.is-playing .hero__down { visibility: visible; }
 }
 
 .piece:hover .piece__title { color: var(--color-accent); }
+
+.piece__group {
+    margin: 10px 0 0;
+    color: var(--color-muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.reel { position: relative; }
+
+.reel__scroller {
+    overflow-x: auto;
+    scrollbar-width: none;
+    cursor: grab;
+}
+
+.reel__scroller::-webkit-scrollbar { display: none; }
+
+.reel__list {
+    display: flex;
+    gap: 16px;
+    width: max-content;
+    padding: 18px 10vw 8px;
+}
+
+.reel__card {
+    flex: 0 0 220px;
+    transform: scale(0.9);
+    transform-origin: center center;
+    transition: transform 0.35s ease;
+}
+
+.reel--visual .reel__card { flex-basis: min(78vw, 720px); }
+
+.reel__card.is-center { transform: scale(1.04); }
+
+.reel--flat .reel__card {
+    flex-basis: 180px;
+    transform: none;
+}
+
+.reel__nav {
+    position: absolute;
+    top: 40%;
+    z-index: 2;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    background: rgb(7 7 8 / 78%);
+    color: var(--color-text);
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.reel__nav:hover,
+.reel__nav:focus-visible { color: var(--color-accent); }
+
+.reel__nav--prev { left: 8px; }
+.reel__nav--next { right: 8px; }
+
+@media (prefers-reduced-motion: reduce) {
+    .reel__card { transition: none; }
+}
 
 .works__head {
     display: flex;

@@ -15,7 +15,7 @@
 - **Backend**: PHP 8.2 vanilla + PDO
 - **DB**: MySQL `galundesign`
 - **Frontend**: CSS propio con tokens (sin Tailwind CDN) + GSAP + ScrollTrigger para la intro y el reveal. JS en módulos vanilla.
-- **Por qué este stack**: es una landing más un admin chico (login, trabajos, datos de contacto). No hay roles, caja ni stock. Laravel sobra.
+- **Por qué este stack**: es una landing más un admin chico (login, trabajos, visuales, clientes, contacto). No hay roles, caja ni stock. Laravel sobra. El servidor no convierte archivos: el admin exporta foto y video en el formato que pide el formulario.
 
 ## Cómo correrlo local
 
@@ -23,26 +23,33 @@
 XAMPP: http://localhost/galundesign/
 DB local: galundesign, importar sql/schema.sql
 Credenciales/config: config.local.php desde config.example.php
+Admin: http://localhost/galundesign/admin/login.php
+Usuario: galun@galundesign.com
+La clave no se escribe en este archivo.
 ```
 
 ## Módulos
 
 | Módulo | Estado | Notas |
 |--------|--------|-------|
-| 1. Landing visual de prueba | hecho | Intro con corte, grilla y contacto. Imágenes generadas en `assets/img/demo/`. Todavía no lee la DB. |
-| 2. Base de datos y config | pendiente | `sql/schema.sql`, PDO, CSRF, sesión. |
-| 3. Admin: login | pendiente | Un solo usuario. Rate limit. `session_regenerate_id(true)`. |
-| 4. Admin: trabajos | pendiente | Alta, orden, publicar/ocultar, borrar. Subida de foto o video. |
-| 5. Admin: contacto e intro | pendiente | WhatsApp, redes, nombre, frase, foto del corte. |
-| 6. Landing conectada al BO | pendiente | La home lee `works` publicados y `settings`. |
+| 1. Landing visual | hecho | Intro, grilla y contacto. La home lee lo publicado. |
+| 2. Menú hamburguesa | hecho | Solo móvil, bajo 800px. No bloquea el scroll. |
+| 3. Base de datos y config | hecho | `sql/schema.sql` importado en local. PDO, CSRF, sesión, carpetas de upload. |
+| 4. Admin: login | hecho | Un usuario. Rate limit. `session_regenerate_id(true)`. |
+| 5. Admin: trabajos | hecho | JPG o WEBP. Story 1080×1920 o feed 1080×1350. Tope 3 MB. |
+| 6. Admin: visuales | hecho | MP4 H.264 1920×960 sin audio, más portada JPG. |
+| 7. Admin: clientes | hecho | Nombre, @, JPG 400×400, link de Instagram. |
+| 8. Home viva y carrusel | hecho | Carrusel en Trabajos (8) y Visuales (5). Clientes sigue en grilla (7). |
 
-Orden de dependencia: 1 puede verse ya (es el corte que el cliente tiene que aprobar). 2 antes de 3. 3 antes de 4 y 5. 6 al final.
+Orden: 2 puede salir solo. 3 antes de 4. 4 antes de 5, 6 y 7. 8 al final. El detalle está en `docs/features/backoffice-y-carrusel.md`.
 
 ## Esquema de datos (resumen)
 
 - `users` — un administrador. Email único, `password_hash` con `password_hash()`.
-- `works` — piezas del portafolio. Foto o video, orden manual, publicado sí/no.
-- `settings` — una sola fila (`id = 1`): marca, frase, foto de intro, WhatsApp, redes, email.
+- `works` — diseños (solo imagen). Formato story o feed, orden manual, publicado sí/no, un destacado.
+- `visuals` — videos de la sección Visuales. MP4, portada, orden, publicado sí/no.
+- `clients` — perfiles. Nombre, @, foto, URL.
+- `settings` — una sola fila (`id = 1`): marca, frase, WhatsApp, redes.
 - `login_attempts` — IP + fecha para frenar fuerza bruta. No guarda contraseñas.
 
 Detalle de columnas: ver sección «Esquema» más abajo. Motor InnoDB, `utf8mb4_unicode_ci`.
@@ -51,8 +58,15 @@ Detalle de columnas: ver sección «Esquema» más abajo. Motor InnoDB, `utf8mb4
 
 - La página pública tiene cinco momentos: portada, trabajos (destacado + grupos), visuales, clientes y contacto.
 - El contacto no es un formulario. Son links: WhatsApp (con mensaje precargado) y redes.
-- Los trabajos los carga el diseñador desde el backoffice. La home muestra solo `is_published = 1`, orden `sort_order ASC, id DESC`.
-- En la landing de prueba los trabajos son imágenes en formato reel (9:16) y alguna horizontal. No se sube video: en un hosting chico pesa y tarda. Cuando exista el backoffice, cada pieza sigue siendo una imagen; el video queda fuera hasta que haga falta.
+- Los trabajos, los visuales y los clientes los carga el diseñador desde el backoffice. La home muestra solo `is_published = 1`, orden `sort_order ASC, id DESC`.
+- El servidor no comprime ni recorta. Si el archivo no cumple el formato, el formulario lo rechaza y dice ahí mismo qué exportar. El admin sabe convertir.
+- Trabajos: JPG o WEBP. Story 1080×1920 o feed 1080×1350. Tope 3 MB.
+- Visuales: MP4 H.264, 1920×960, sin audio, tope 40 MB. La portada es un JPG 1920×960 aparte, tope 400 KB.
+- Clientes: JPG cuadrado 400×400, tope 200 KB.
+- Cada trabajo lleva una etiqueta de grupo (Eliastom Kick, Eventos, Historias u otra). Se muestra en la pieza. Hay un solo destacado, fuera del carrusel: al marcar otro, el anterior deja de serlo.
+- El link de Instagram es obligatorio en trabajos, visuales y clientes. Tiene que ser `https`.
+- Ocultar no borra. `is_published = 0` saca la pieza de la home y deja el archivo. Borrar elimina la fila y el archivo.
+- Carrusel infinito (centro más grande, scroll a ambos lados) solo cuando la sección tiene piezas de más. Trabajos desde 7, sin contar el destacado. Visuales desde 5. Clientes desde 8, y en círculos iguales, sin agrandar el del centro. Por debajo de eso queda la grilla actual.
 - Contacto público: WhatsApp +54 9 2346 57-1207 (`wa.me/5492346571207`) e Instagram https://www.instagram.com/galun.psd/
 - Cada trabajo es un enlace a su publicación de Instagram. Hoy apuntan al perfil `https://www.instagram.com/galun.psd/` hasta tener la URL de cada post (`instagram.com/p/...`). No se incrusta el widget de Instagram.
 - Trabajos usa los archivos de `assets/assets-web-gd/`: destacado Fuego x Soho; Eliastom Kick (Amor de su cama, Componemos con Lauta, Zaina x Tomhouse); Eventos (Perro Primo, Tomas Marenzana, Frenesi); Historias (Fuego x Soho y Fuego x El Club).
@@ -90,14 +104,19 @@ En móvil el corte es el mismo y el nombre queda legible a 375px.
 ## Deploys
 
 - Último deploy: 12 nov 2026, https://galundesign.com (landing estática, sin base)
-- Procedimiento: push a `main`. Hostinger despliega el repo en el document root. No hay base de producción en este corte, así que no hubo dump.
+- El backoffice y el carrusel están en local (13 nov 2026). Producción sigue sin base y sin este código hasta el próximo push.
+- Antes de subir videos en producción, `upload_max_filesize` y `post_max_size` tienen que estar en 48M o más.
+- Procedimiento: push a `main`. Hostinger despliega el repo en el document root.
 
 ## Pendientes / deuda técnica
 
 - [x] Marca: Galun Design. WhatsApp +54 9 2346 57-1207. Instagram @galun.psd
 - [x] Trabajos de la prueba: solo imagen. Video no entra en esta versión.
 - [ ] Hosting y dominio
-- [ ] Reemplazar imágenes de prueba cuando el diseñador entregue las suyas
+- [x] Grupos como etiqueta en cada pieza. Un solo destacado. Link de Instagram obligatorio. Se puede ocultar sin borrar.
+- [x] La home local lee la base. La semilla publica las piezas que ya estaban en la landing.
+- [ ] Crear la base `galundesign` en Hostinger e importar `sql/schema.sql`
+- [ ] Subir `upload_max_filesize` y `post_max_size` a 48M en hPanel
 
 ## Esquema
 
@@ -116,28 +135,58 @@ CREATE TABLE users (
 CREATE TABLE works (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   title VARCHAR(160) NOT NULL,
-  media_type VARCHAR(16) NOT NULL,          -- 'image' | 'video'
-  file_path VARCHAR(255) NOT NULL,          -- nombre aleatorio dentro de uploads/works/
-  poster_path VARCHAR(255) NULL,            -- frame o portada; obligatorio si media_type = video
+  frame VARCHAR(16) NOT NULL,               -- 'story' (9:16) | 'feed' (4:5)
+  file_path VARCHAR(255) NOT NULL,          -- nombre aleatorio en uploads/works/
+  link_url VARCHAR(255) NOT NULL,
+  group_label VARCHAR(80) NOT NULL,         -- texto libre, ej. Eliastom Kick
+  is_featured TINYINT(1) NOT NULL DEFAULT 0,
   sort_order INT NOT NULL DEFAULT 0,
-  is_published TINYINT(1) NOT NULL DEFAULT 1,
+  is_published TINYINT(1) NOT NULL DEFAULT 0,
+  width INT UNSIGNED NOT NULL,
+  height INT UNSIGNED NOT NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
-  KEY idx_works_public (is_published, sort_order, id)
+  KEY idx_works_public (is_published, is_featured, sort_order, id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE visuals (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  title VARCHAR(160) NOT NULL,
+  file_path VARCHAR(255) NOT NULL,          -- uploads/visuals/
+  poster_path VARCHAR(255) NOT NULL,
+  link_url VARCHAR(255) NOT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  is_published TINYINT(1) NOT NULL DEFAULT 0,
+  width INT UNSIGNED NOT NULL,
+  height INT UNSIGNED NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_visuals_public (is_published, sort_order, id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE clients (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  name VARCHAR(120) NOT NULL,
+  handle VARCHAR(80) NOT NULL,
+  photo_path VARCHAR(255) NOT NULL,         -- uploads/clients/
+  url VARCHAR(255) NOT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  is_published TINYINT(1) NOT NULL DEFAULT 0,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_clients_public (is_published, sort_order, id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE settings (
   id TINYINT UNSIGNED NOT NULL,
   brand_name VARCHAR(120) NOT NULL,
   tagline VARCHAR(240) NOT NULL,
-  intro_image VARCHAR(255) NULL,            -- uploads/intro/
-  whatsapp_e164 VARCHAR(20) NULL,           -- solo dígitos, con código de país, ej. 54911...
+  whatsapp_e164 VARCHAR(20) NULL,           -- solo dígitos, con código de país, ej. 5492346571207
   whatsapp_message VARCHAR(240) NULL,
   instagram_url VARCHAR(255) NULL,
-  tiktok_url VARCHAR(255) NULL,
-  behance_url VARCHAR(255) NULL,
-  email VARCHAR(190) NULL,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -168,46 +217,54 @@ Archivos:
 
 Sin base de datos todavía. Sirve para que el diseñador diga si el corte y la grilla le cierran.
 
-### 2. Base y config
+### 3. Base y config
 
 - `config.example.php`, `config.local.php`
-- `includes/init.php`, `includes/db.php`, `includes/csrf.php`
+- `includes/init.php` (sesión, CSRF, `e()`), `includes/db.php`, `includes/home.php`, `includes/content.php`, `includes/uploads.php`
 - `sql/schema.sql` + seed de `settings` y del admin
-- `uploads/works/.htaccess` y `uploads/intro/.htaccess` (denegar ejecución de PHP)
+- `uploads/works/.htaccess`, `uploads/visuals/.htaccess` y `uploads/clients/.htaccess` (denegar ejecución de PHP)
 - `.gitignore` ya debe ignorar `config.local.php` y `uploads/**` salvo `.htaccess`
 
-### 3. Login
+### 4. Login
 
 - `admin/_auth.php` — guard al tope de cada archivo admin
 - `admin/login.php`, `admin/logout.php`
 - Rate limit: 5 intentos fallidos por IP en 15 minutos (`login_attempts`)
 - CSRF en el POST. Regenerar id de sesión al entrar.
 
-### 4. Trabajos
+### 2. Menú hamburguesa
 
-- `admin/works.php` — listado, reordenar (campo numérico), publicar, borrar
-- `admin/work-edit.php` — alta y edición
-- Validación de upload: whitelist de extensión **y** MIME.
-  - Imagen: jpg, jpeg, png, webp
-  - Video: mp4, webm, tope propuesto 20 MB
-  - Poster de video: imagen, obligatorio
-- Renombrar con nombre aleatorio. Borrar el archivo del disco al borrar la fila, en la misma petición (si el unlink falla, no dejar la fila apuntando a un archivo que ya no existe: borrar archivo primero, después la fila, o al revés con limpieza). No hace falta transacción de dinero; sí no publicar una fila si el archivo no se guardó.
+- `index.php`, `assets/css/app.css`, `assets/js/nav.js`
+- Bajo 800px el nav de texto se reemplaza por un botón «Menú». El panel lista Trabajos, Visuales, Clientes y Contacto.
+- En escritorio el nav queda como está. El panel cierra al elegir una sección, con Escape o al tocar afuera. No se bloquea el scroll de la página.
 
-### 5. Contacto e intro
+### 5, 6 y 7. Trabajos, visuales y clientes
 
-- `admin/settings.php` — marca, frase, WhatsApp, mensaje, Instagram, TikTok, Behance, email, foto de intro
-- La foto de intro reemplaza a la anterior y borra el archivo viejo
+- `admin/works.php`, `admin/work-edit.php`
+- `admin/visuals.php`, `admin/visual-edit.php`
+- `admin/clients.php`, `admin/client-edit.php`
+- Cada alta muestra, al lado del archivo, el formato exacto. Si no cumple, el error está en ese campo, en español, y no se guarda la fila.
+- No hay ffmpeg ni reencode. Imagen: extensión, MIME y `getimagesize`. Video: extensión, MIME, peso, y lectura del átomo `tkhd` para el tamaño. Si el MP4 trae pista de audio, se rechaza.
+- Nombre aleatorio. Al borrar, primero el archivo y después la fila. Una fila nueva solo se inserta si el archivo ya quedó en disco.
+- Carpetas: `uploads/works/`, `uploads/visuals/`, `uploads/clients/`, cada una con `.htaccess` que niega PHP.
 
-### 6. Home viva
+### Contacto
 
-- `index.php` pasa a leer `settings` y `works`
-- Vacío de trabajos: la sección no se muestra, o un texto corto («Pronto, trabajos nuevos.»). Decisión de implementación: texto corto, no una grilla vacía.
+- `admin/settings.php` — marca, frase, WhatsApp, mensaje, Instagram. La intro no tiene foto: el fondo sigue siendo el degradado.
+
+### 8. Home viva y carrusel
+
+- `index.php` lee `settings`, `works`, `visuals` y `clients` publicados.
+- Sección sin piezas: no se renderiza. No hay grilla vacía.
+- Carrusel: la pieza del centro va un poco más grande. Se scrollea a izquierda y derecha, con arrastre, swipe y flechas. El bucle es manual, sin autoplay. Al cruzar el extremo, el salto no se ve.
+- Umbral: trabajos 7 (el destacado queda fuera de la tira), visuales 5, clientes 8. Por debajo, la grilla de hoy. Los clientes no agrandan el del centro.
+- `prefers-reduced-motion`: mismo carrusel, sin animación suave.
 - WhatsApp: `https://wa.me/{digits}?text={mensaje}`. Si no hay número, no se renderiza el botón.
 
 ## Riesgos
 
 - **Uploads**: ejecución de PHP en `uploads/`, MIME mentido, archivos enormes. Whitelist + MIME + nombre aleatorio + `.htaccess` + límite de tamaño en PHP y en la app.
-- **Video en hosting compartido**: un reel pesado rompe el disco y el tiempo de subida. Por eso el tope y la pregunta de «archivo vs link».
+- **Video en hosting compartido**: el tope es 40 MB y el admin lo exporta él. En Hostinger, `upload_max_filesize` y `post_max_size` tienen que estar en 48M o más. No instalar ffmpeg para este flujo.
 - **XSS**: título, frase y URLs salen con `htmlspecialchars`. Las URLs de redes se aceptan solo si el esquema es `https`.
 - **CSRF y sesión**: todo POST del admin lleva token. Cookie de sesión `HttpOnly`, `SameSite=Lax`, `Secure` en producción.
 - **Fuerza bruta**: tabla `login_attempts`.

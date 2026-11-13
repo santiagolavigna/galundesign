@@ -1,0 +1,2 @@
+-- Primera base del backoffice. En una base vacía alcanza con importar sql/schema.sql.
+-- Rollback: DROP TABLE login_attempts, settings, clients, visuals, works, users;
