@@ -8,6 +8,7 @@
 - **Cliente**: Galun Design
 - **Descripción**: landing de una sola página, visualmente extrema y corta. Intro a pantalla completa con foto que se parte al medio al entrar, bloque de últimos trabajos (fotos y reels cargados desde un backoffice) y franja de contacto (WhatsApp y redes). Sin blog, sin tienda, sin formulario de leads.
 - **URL producción**: https://galundesign.com
+- **Clase**: no crítico. Queda en Hostinger compartido. No va al servidor dedicado.
 - **Hosting**: Hostinger compartido. El sitio se publica solo al pushear `main` en GitHub (`santiagolavigna/galundesign`). Credenciales en hPanel, no en el repo.
 
 ## Stack
@@ -99,14 +100,15 @@ En móvil el corte es el mismo y el nombre queda legible a 375px.
 
 - Local: `config.local.php` (gitignored). Plantilla: `config.example.php`.
 - Admin inicial: se crea en el seed de `sql/schema.sql` con un hash. La contraseña de desarrollo se entrega aparte, no va en `project.md` ni en el repo.
-- Producción: las guarda el usuario en el hosting (panel o gestor de contraseñas). Mismo archivo `config.local.php`, no se sube por git.
+- Producción: `config.local.php` está en el document root del servidor y no entra a git. La base es `u550966134_galundesign`, usuario `u550966134_galun`, host `127.0.0.1`. La clave de esa base no va en este archivo.
 
 ## Deploys
 
-- Último deploy: 12 nov 2026, https://galundesign.com (landing estática, sin base)
-- El backoffice y el carrusel están en local (13 nov 2026). Producción sigue sin base y sin este código hasta el próximo push.
-- Antes de subir videos en producción, `upload_max_filesize` y `post_max_size` tienen que estar en 48M o más.
-- Procedimiento: push a `main`. Hostinger despliega el repo en el document root.
+- Último deploy: 13 nov 2026, https://galundesign.com (backoffice, carrusel y base). Commit `380b742`.
+- No había base previa, así que no hubo dump que respaldar.
+- PHP de producción: 8.3. `upload_max_filesize` y `post_max_size` ya estaban en 256M.
+- `config.local.php` y `sql/` responden 403. El acceso remoto a la base quedó cerrado después de importar.
+- Procedimiento: push a `main`. Hostinger despliega el repo en el document root. La config de la base se vuelve a subir a mano si un deploy la pisa, porque no está en git.
 
 ## Pendientes / deuda técnica
 
@@ -115,8 +117,7 @@ En móvil el corte es el mismo y el nombre queda legible a 375px.
 - [ ] Hosting y dominio
 - [x] Grupos como etiqueta en cada pieza. Un solo destacado. Link de Instagram obligatorio. Se puede ocultar sin borrar.
 - [x] La home local lee la base. La semilla publica las piezas que ya estaban en la landing.
-- [ ] Crear la base `galundesign` en Hostinger e importar `sql/schema.sql`
-- [ ] Subir `upload_max_filesize` y `post_max_size` a 48M en hPanel
+- [x] Base de producción creada e importada el 13 nov 2026. Los topes de subida ya estaban en 256M.
 
 ## Esquema
 
