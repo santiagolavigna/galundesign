@@ -58,11 +58,20 @@ h1 {
     text-transform: uppercase;
 }
 
-.flash {
+.flash,
+.notice,
+.error {
     margin: 0 0 16px;
-    padding: 12px 14px;
+    padding: 14px 16px;
     background: var(--surface);
     border-left: 3px solid var(--accent);
+    font-weight: 600;
+}
+
+.notice--bad,
+.error {
+    border-left-color: var(--danger);
+    color: var(--text);
 }
 
 .rows { display: grid; gap: 10px; }
@@ -130,8 +139,6 @@ button.quiet, .button.quiet {
     color: var(--text);
     border: 1px solid var(--line);
 }
-
-.error { color: var(--danger); font-weight: 600; }
 
 .login {
     width: min(420px, calc(100% - 32px));

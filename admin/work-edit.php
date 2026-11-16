@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'width' => $width,
             'height' => $height,
         ], $row === null ? null : (int) $row['id']);
-        flash('Trabajo guardado.');
+        flash('Se guardó «' . $values['title'] . '».');
         header('Location: works.php');
         exit;
     }

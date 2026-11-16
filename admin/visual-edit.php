@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'width' => $width,
             'height' => $height,
         ], $row === null ? null : (int) $row['id']);
-        flash('Visual guardado.');
+        flash('Se guardó «' . $values['title'] . '».');
         header('Location: visuals.php');
         exit;
     }

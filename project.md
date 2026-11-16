@@ -40,7 +40,8 @@ La clave no se escribe en este archivo.
 | 5. Admin: trabajos | hecho | JPG o WEBP. Story 1080×1920 o feed 1080×1350. Tope 3 MB. |
 | 6. Admin: visuales | hecho | MP4 H.264 1920×960 sin audio, más portada JPG. |
 | 7. Admin: clientes | hecho | Nombre, @, JPG 400×400, link de Instagram. |
-| 8. Home viva y carrusel | hecho | Carrusel en Trabajos (8) y Visuales (5). Clientes sigue en grilla (7). |
+| 8. Home viva y carrusel | hecho | Carrusel en Trabajos, Visuales y Clientes. |
+| 9. Mensajes y errores | hecho | Sin 403 crudo. El admin dice si se guardó o por qué no. |
 
 Orden: 2 puede salir solo. 3 antes de 4. 4 antes de 5, 6 y 7. 8 al final. El detalle está en `docs/features/backoffice-y-carrusel.md`.
 
@@ -78,6 +79,7 @@ Detalle de columnas: ver sección «Esquema» más abajo. Motor InnoDB, `utf8mb4
 - Clientes son siete perfiles de Instagram (Elias Tom, Candu Dominguez, Nicole Fernandez, Lali DJ, Lola Bottini, Frenesi Fiesta, Boveda Fiesta). Cada nombre abre ese perfil.
 - No hay precios, no hay cuentas de clientes, no hay comentarios.
 - Idioma de la interfaz: español.
+- El admin no muestra errores crudos del servidor. Al guardar, el listado dice «Se guardó “nombre”.» Si el archivo no sirve, el formulario se queda abierto y explica el motivo. Una carpeta de uploads, abierta sin archivo, vuelve a la home. Un 403, 404 o 500 muestra una página estática en español con link al inicio. Detalle: `docs/features/mensajes-y-errores.md`.
 - Un solo usuario admin. No hay roles.
 - Piezas de prueba (imágenes generadas) viven en `assets/img/demo/` hasta que el diseñador suba las suyas. No se commitean uploads reales de clientes.
 - Zona horaria de `created_at` / `updated_at`: hora del servidor MySQL, documentada como local del hosting (Argentina en XAMPP).
@@ -261,6 +263,19 @@ Sin base de datos todavía. Sirve para que el diseñador diga si el corte y la g
 - Umbral: trabajos 7 (el destacado queda fuera de la tira), visuales 5, clientes 8. Por debajo, la grilla de hoy. Los clientes no agrandan el del centro.
 - `prefers-reduced-motion`: mismo carrusel, sin animación suave.
 - WhatsApp: `https://wa.me/{digits}?text={mensaje}`. Si no hay número, no se renderiza el botón.
+
+### 9. Mensajes y errores
+
+Sin tablas nuevas. El stack no cambia.
+
+- `assets/error.html` — página estática, fondo noche, texto en español, link «Volver al inicio». Sin la palabra 403 ni texto en inglés.
+- `.htaccess` — `ErrorDocument` 403, 404 y 500 apuntan a esa página.
+- `uploads/index.html` y el mismo archivo en `works/`, `visuals/` y `clients/` — redirigen a `/`. No listan archivos. `.gitignore` tiene que dejar entrar esos `index.html`, igual que los `.htaccess`.
+- `includes/init.php` — si el POST llega vacío, el aviso es de peso, no de sesión. Si el token no coincide, la respuesta es la página del admin.
+- `admin/work-edit.php`, `visual-edit.php`, `client-edit.php`, `settings.php` — el éxito incluye el nombre y se ve en el listado. El error queda en un bloque arriba del formulario.
+- `assets/css/admin.css` — el aviso de éxito y el de error se leen de un vistazo.
+
+Orden: se puede hacer solo, después del módulo 8.
 
 ## Riesgos
 

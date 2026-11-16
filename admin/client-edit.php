@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'sort_order' => (int) $values['sort_order'],
             'is_published' => $values['is_published'],
         ], $row === null ? null : (int) $row['id']);
-        flash('Cliente guardado.');
+        flash('Se guardó «' . $values['name'] . '».');
         header('Location: clients.php');
         exit;
     }

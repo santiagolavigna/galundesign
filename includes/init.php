@@ -29,12 +29,31 @@ function csrf_token(): string
 
 function csrf_require(): void
 {
+    $length = (int) ($_SERVER['CONTENT_LENGTH'] ?? 0);
+    if ($length > 0 && $_POST === [] && $_FILES === []) {
+        csrf_page(413, 'No se guardó. El archivo es demasiado pesado.');
+    }
+
     $sent = $_POST['csrf'] ?? '';
     $known = $_SESSION['csrf'] ?? '';
-    if (!is_string($sent) || !is_string($known) || !hash_equals($known, $sent)) {
-        http_response_code(403);
-        exit('La sesión expiró. Volvé a cargar la página.');
+    if (!is_string($sent) || !is_string($known) || $known === '' || !hash_equals($known, $sent)) {
+        csrf_page(403, 'La sesión expiró. Volvé a entrar.');
     }
+}
+
+function csrf_page(int $status, string $message): never
+{
+    http_response_code($status);
+    $safe = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
+    echo '<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">';
+    echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
+    echo '<title>Galun</title>';
+    echo '<link rel="stylesheet" href="../assets/css/admin.css">';
+    echo '</head><body><main class="wrap">';
+    echo '<p class="notice notice--bad">' . $safe . '</p>';
+    echo '<p><a class="button" href="login.php">Entrar</a></p>';
+    echo '</main></body></html>';
+    exit;
 }
 
 function media_src(string $path): string

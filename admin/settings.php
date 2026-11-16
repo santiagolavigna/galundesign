@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'whatsapp_message' => $values['whatsapp_message'] !== '' ? $values['whatsapp_message'] : null,
             'instagram_url' => $instagram !== '' ? $instagram : null,
         ]);
-        flash('Contacto guardado.');
+        flash('Se guardó el contacto.');
         header('Location: settings.php');
         exit;
     }

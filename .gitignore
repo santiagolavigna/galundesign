@@ -6,5 +6,7 @@ config.local.php
 !/uploads/visuals/
 !/uploads/clients/
 !/uploads/**/.htaccess
+!/uploads/index.html
+!/uploads/**/index.html
 node_modules/
 .claude/settings.local.json
