@@ -106,7 +106,7 @@ En móvil el corte es el mismo y el nombre queda legible a 375px.
 
 ## Deploys
 
-- Último deploy: 13 nov 2026, https://galundesign.com (backoffice, carrusel y base). Commit `380b742`.
+- Último deploy: 16 nov 2026, https://galundesign.com (mensajes del admin y página de error en español). Commit `49880ea`.
 - No había base previa, así que no hubo dump que respaldar.
 - PHP de producción: 8.3. `upload_max_filesize` y `post_max_size` ya estaban en 256M.
 - `config.local.php` y `sql/` responden 403. El acceso remoto a la base quedó cerrado después de importar.
