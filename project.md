@@ -268,8 +268,9 @@ Sin base de datos todavía. Sirve para que el diseñador diga si el corte y la g
 
 Sin tablas nuevas. El stack no cambia.
 
-- `assets/error.html` — página estática, fondo noche, texto en español, link «Volver al inicio». Sin la palabra 403 ni texto en inglés.
+- `assets/error.php` — fondo noche, texto en español. Si la dirección era del panel, dice que no se pudo guardar. Sin la palabra 403 ni texto en inglés.
 - `.htaccess` — `ErrorDocument` 403, 404 y 500 apuntan a esa página.
+- `logs/app.log` — anota el corte del servidor y, si PHP llega a ver el archivo, el peso, el formato y el motivo. La carpeta no se sirve. El archivo no va a git.
 - `uploads/index.html` y el mismo archivo en `works/`, `visuals/` y `clients/` — redirigen a `/`. No listan archivos. `.gitignore` tiene que dejar entrar esos `index.html`, igual que los `.htaccess`.
 - `includes/init.php` — si el POST llega vacío, el aviso es de peso, no de sesión. Si el token no coincide, la respuesta es la página del admin.
 - `admin/work-edit.php`, `visual-edit.php`, `client-edit.php`, `settings.php` — el éxito incluye el nombre y se ve en el listado. El error queda en un bloque arriba del formulario.

@@ -4,6 +4,19 @@ declare(strict_types=1);
 $uri = (string) ($_SERVER['REDIRECT_URL'] ?? $_SERVER['REDIRECT_REQUEST_URI'] ?? '');
 $failedSave = str_contains($uri, '/admin/');
 $status = (int) ($_SERVER['REDIRECT_STATUS'] ?? 404);
+$logDir = dirname(__DIR__) . '/logs';
+if (is_dir($logDir)) {
+    $note = preg_replace('/\s+/', ' ', (string) ($_SERVER['REDIRECT_ERROR_NOTES'] ?? '')) ?? '';
+    $line = gmdate('c')
+        . ' error-page'
+        . ' status=' . $status
+        . ' method=' . substr((string) ($_SERVER['REDIRECT_REQUEST_METHOD'] ?? $_SERVER['REQUEST_METHOD'] ?? ''), 0, 12)
+        . ' uri=' . substr(str_replace(["\n", '"'], '', $uri), 0, 180)
+        . ' bytes=' . (int) ($_SERVER['REDIRECT_CONTENT_LENGTH'] ?? $_SERVER['CONTENT_LENGTH'] ?? 0)
+        . ' note=' . substr(str_replace(['"', '\\'], '', $note), 0, 180)
+        . "\n";
+    file_put_contents($logDir . '/app.log', $line, FILE_APPEND | LOCK_EX);
+}
 if ($status < 400 || $status > 599) {
     $status = 404;
 }

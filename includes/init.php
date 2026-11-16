@@ -13,6 +13,24 @@ session_set_cookie_params([
 ]);
 session_start();
 
+require_once __DIR__ . '/log.php';
+
+register_shutdown_function(static function (): void {
+    $last = error_get_last();
+    if ($last === null) {
+        return;
+    }
+    $fatal = [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR];
+    if (!in_array($last['type'], $fatal, true)) {
+        return;
+    }
+    app_log('php-fatal', [
+        'message' => (string) $last['message'],
+        'file' => basename((string) $last['file']),
+        'line' => (string) $last['line'],
+    ]);
+});
+
 function e(?string $value): string
 {
     return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
@@ -31,12 +49,14 @@ function csrf_require(): void
 {
     $length = (int) ($_SERVER['CONTENT_LENGTH'] ?? 0);
     if ($length > 0 && $_POST === [] && $_FILES === []) {
+        app_log('post-vacio', ['bytes' => (string) $length, 'uri' => (string) ($_SERVER['SCRIPT_NAME'] ?? '')]);
         csrf_page(413, 'No se guardó. El archivo es demasiado pesado.');
     }
 
     $sent = $_POST['csrf'] ?? '';
     $known = $_SESSION['csrf'] ?? '';
     if (!is_string($sent) || !is_string($known) || $known === '' || !hash_equals($known, $sent)) {
+        app_log('csrf', ['uri' => (string) ($_SERVER['SCRIPT_NAME'] ?? '')]);
         csrf_page(403, 'La sesión expiró. Volvé a entrar.');
     }
 }

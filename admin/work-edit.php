@@ -24,6 +24,16 @@ $values = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $uploaded = $_FILES['image'] ?? null;
+    app_log('work-post', [
+        'bytes' => (string) ($_SERVER['CONTENT_LENGTH'] ?? '0'),
+        'frame' => (string) ($_POST['frame'] ?? ''),
+        'post' => $_POST === [] ? 'vacio' : 'ok',
+        'file_error' => is_array($uploaded) ? (string) ($uploaded['error'] ?? '') : 'ninguno',
+        'file_bytes' => is_array($uploaded) ? (string) ($uploaded['size'] ?? '0') : '0',
+        'ext' => is_array($uploaded) ? strtolower(pathinfo((string) ($uploaded['name'] ?? ''), PATHINFO_EXTENSION)) : '',
+    ]);
+    try {
     csrf_require();
     $values['title'] = clean_text((string) ($_POST['title'] ?? ''), 160);
     $values['frame'] = ($_POST['frame'] ?? '') === 'feed' ? 'feed' : 'story';
@@ -87,6 +97,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         flash('Se guardó «' . $values['title'] . '».');
         header('Location: works.php');
         exit;
+    }
+    if ($error !== '') {
+        app_log('work-rejected', ['reason' => $error]);
+    }
+    } catch (Throwable $e) {
+        app_log('work-exception', ['type' => $e::class, 'message' => $e->getMessage()]);
+        $error = 'No se pudo guardar la imagen.';
     }
 }
 

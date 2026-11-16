@@ -8,5 +8,6 @@ config.local.php
 !/uploads/**/.htaccess
 !/uploads/index.html
 !/uploads/**/index.html
+/logs/*.log
 node_modules/
 .claude/settings.local.json
