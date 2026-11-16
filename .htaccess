@@ -1,7 +1,7 @@
 # El panel ya fuerza HTTPS. Estos archivos no se sirven.
-ErrorDocument 403 /assets/error.html
-ErrorDocument 404 /assets/error.html
-ErrorDocument 500 /assets/error.html
+ErrorDocument 403 /assets/error.php
+ErrorDocument 404 /assets/error.php
+ErrorDocument 500 /assets/error.php
 
 <FilesMatch "^(project\.md|AGENTS\.md|CLAUDE\.md|config\.local\.php|config\.example\.php)$">
     Require all denied

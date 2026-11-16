@@ -540,9 +540,13 @@ html.is-reveal.is-playing .hero__down { visibility: visible; }
 }
 
 .feature__frame { aspect-ratio: 4 / 5; }
+.feature__frame--story { aspect-ratio: 9 / 16; }
+.feature__frame--feed { aspect-ratio: 4 / 5; }
+.feature__frame--square { aspect-ratio: 1 / 1; }
 
 .piece__frame--story { aspect-ratio: 9 / 16; }
 .piece__frame--feed { aspect-ratio: 4 / 5; }
+.piece__frame--square { aspect-ratio: 1 / 1; }
 .piece__frame--wide { aspect-ratio: 2 / 1; }
 
 .piece__pan {

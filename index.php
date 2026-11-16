@@ -97,7 +97,7 @@ $whatsappHref = $home['whatsapp_href'];
 
             <?php if ($home['featured'] !== null): ?>
             <a class="feature" href="<?= e((string) $home['featured']['link_url']) ?>" target="_blank" rel="noopener noreferrer">
-                <div class="feature__frame">
+                <div class="feature__frame feature__frame--<?= e((string) $home['featured']['frame']) ?>">
                     <div class="piece__pan">
                         <img src="<?= e(media_src((string) $home['featured']['file_path'])) ?>" width="<?= (int) $home['featured']['width'] ?>" height="<?= (int) $home['featured']['height'] ?>" alt="<?= e('Flyer de ' . $home['featured']['title']) ?>">
                     </div>

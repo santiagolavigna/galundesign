@@ -39,25 +39,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $width = (int) ($row['width'] ?? 0);
     $height = (int) ($row['height'] ?? 0);
     $uploaded = $_FILES['image'] ?? null;
+    $hasNewFile = is_array($uploaded) && ($uploaded['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE;
+    if (!$hasNewFile && $values['frame'] === 'feed' && $row !== null && (string) $row['frame'] === 'square') {
+        $values['frame'] = 'square';
+    }
 
     if ($values['title'] === '' || $values['group_label'] === '') {
         $error = 'El título y el grupo son obligatorios.';
     } elseif ($link === null) {
         $error = 'El link tiene que empezar con https://.';
     } elseif (is_array($uploaded) && ($uploaded['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
-        $taken = take_image($uploaded, 'works', 3 * 1024 * 1024, $targetW, $targetH, true);
+        $maxBytes = 8 * 1024 * 1024;
+        $also = $values['frame'] === 'feed' ? [[1, 1]] : [];
+        $taken = take_image($uploaded, 'works', $maxBytes, $targetW, $targetH, true, true, $also);
         if (is_string($taken)) {
             $error = $taken . ($values['frame'] === 'feed'
-                ? ' Feed: 1080×1350, JPG o WEBP, hasta 3 MB.'
-                : ' Story: 1080×1920, JPG o WEBP, hasta 3 MB.');
+                ? ' El post tiene que ser 4:5 (1080×1350) o cuadrado (1080×1080), JPG o WEBP, hasta 8 MB.'
+                : ' La historia tiene que ser 9:16 (1080×1920), JPG o WEBP, hasta 8 MB.');
         } else {
             remove_stored_file($filePath !== '' ? $filePath : null);
             $filePath = $taken['path'];
             $width = $taken['width'];
             $height = $taken['height'];
+            if ($values['frame'] === 'feed' && $height > 0 && abs(($width / $height) - 1) <= 0.03) {
+                $values['frame'] = 'square';
+            }
         }
         } elseif ($row === null) {
-        $error = 'Subí la imagen. Story: 1080×1920. Feed: 1080×1350. JPG o WEBP, hasta 3 MB.';
+        $error = 'Subí la imagen. Post: 1080×1350 o 1080×1080. Historia: 1080×1920. JPG o WEBP, hasta 8 MB.';
     } elseif ((string) $row['frame'] !== $values['frame']) {
         $error = 'Si cambiás el formato, subí la imagen de nuevo.';
     }
@@ -92,11 +101,11 @@ admin_head($row === null ? 'Nuevo trabajo' : 'Editar trabajo');
     </label>
     <label>Formato
         <select name="frame">
-            <option value="story"<?= $values['frame'] === 'story' ? ' selected' : '' ?>>Story 9:16</option>
-            <option value="feed"<?= $values['frame'] === 'feed' ? ' selected' : '' ?>>Feed 4:5</option>
+            <option value="story"<?= $values['frame'] === 'story' ? ' selected' : '' ?>>Historia 9:16</option>
+            <option value="feed"<?= $values['frame'] === 'feed' || $values['frame'] === 'square' ? ' selected' : '' ?>>Post de Instagram</option>
         </select>
     </label>
-    <label>Imagen <span class="hint">JPG o WEBP, hasta 3 MB. Story 1080×1920. Feed 1080×1350. El sitio no la comprime.</span>
+    <label>Imagen <span class="hint">JPG o WEBP, hasta 8 MB. Historia 1080×1920. Post 1080×1350 o cuadrado 1080×1080. El sitio no la comprime.</span>
         <input type="file" name="image" accept=".jpg,.jpeg,.webp,image/jpeg,image/webp">
     </label>
     <label>Link de Instagram <input type="url" name="link_url" required value="<?= e($values['link_url']) ?>"></label>

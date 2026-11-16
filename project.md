@@ -37,7 +37,7 @@ La clave no se escribe en este archivo.
 | 2. Menú hamburguesa | hecho | Solo móvil, bajo 800px. No bloquea el scroll. |
 | 3. Base de datos y config | hecho | `sql/schema.sql` importado en local. PDO, CSRF, sesión, carpetas de upload. |
 | 4. Admin: login | hecho | Un usuario. Rate limit. `session_regenerate_id(true)`. |
-| 5. Admin: trabajos | hecho | JPG o WEBP. Story 1080×1920 o feed 1080×1350. Tope 3 MB. |
+| 5. Admin: trabajos | hecho | JPG o WEBP. Historia 9:16. Post 4:5 o cuadrado. Tope 8 MB. |
 | 6. Admin: visuales | hecho | MP4 H.264 1920×960 sin audio, más portada JPG. |
 | 7. Admin: clientes | hecho | Nombre, @, JPG 400×400, link de Instagram. |
 | 8. Home viva y carrusel | hecho | Carrusel en Trabajos, Visuales y Clientes. |
@@ -62,7 +62,7 @@ Detalle de columnas: ver sección «Esquema» más abajo. Motor InnoDB, `utf8mb4
 - El contacto no es un formulario. Son links: WhatsApp (con mensaje precargado) y redes.
 - Los trabajos, los visuales y los clientes los carga el diseñador desde el backoffice. La home muestra solo `is_published = 1`, orden `sort_order ASC, id DESC`.
 - El servidor no comprime ni recorta. Si el archivo no cumple el formato, el formulario lo rechaza y dice ahí mismo qué exportar. El admin sabe convertir.
-- Trabajos: JPG o WEBP. Story 1080×1920 o feed 1080×1350. Tope 3 MB.
+- Trabajos: JPG o WEBP. Historia 9:16 (1080×1920). Post de Instagram 4:5 (1080×1350) o cuadrado (1080×1080). Tope 8 MB. Si no coincide, el formulario dice la medida real y no guarda la fila.
 - Visuales: MP4 H.264, 1920×960, sin audio, tope 40 MB. La portada es un JPG 1920×960 aparte, tope 400 KB.
 - Clientes: JPG cuadrado 400×400, tope 200 KB.
 - Cada trabajo lleva una etiqueta de grupo (Eliastom Kick, Eventos, Historias u otra). Se muestra en la pieza. Hay un solo destacado, fuera del carrusel: al marcar otro, el anterior deja de serlo.

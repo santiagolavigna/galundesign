@@ -53,7 +53,7 @@ function remove_stored_file(?string $path): bool
 /**
  * @return array{width:int,height:int,path:string}|string
  */
-function take_image(array $file, string $folder, int $maxBytes, int $targetW, int $targetH, bool $allowRatio = false, bool $allowWebp = true): array|string
+function take_image(array $file, string $folder, int $maxBytes, int $targetW, int $targetH, bool $allowRatio = false, bool $allowWebp = true, array $also = []): array|string
 {
     $problem = upload_error($file);
     if ($problem !== null) {
@@ -83,13 +83,21 @@ function take_image(array $file, string $folder, int $maxBytes, int $targetW, in
     $width = (int) $info[0];
     $height = (int) $info[1];
     $matches = $width === $targetW && $height === $targetH;
+    $targets = array_merge([[$targetW, $targetH]], $also);
     if (!$matches && $allowRatio) {
         $ratio = $height > 0 ? $width / $height : 0;
-        $expected = $targetH > 0 ? $targetW / $targetH : 0;
-        $matches = $expected > 0 && abs($ratio - $expected) / $expected <= 0.03;
+        foreach ($targets as $target) {
+            $expectedW = (int) ($target[0] ?? 0);
+            $expectedH = (int) ($target[1] ?? 0);
+            $expected = $expectedH > 0 ? $expectedW / $expectedH : 0;
+            if ($expected > 0 && abs($ratio - $expected) / $expected <= 0.03) {
+                $matches = true;
+                break;
+            }
+        }
     }
     if (!$matches) {
-        return 'La imagen tiene que medir ' . $targetW . '×' . $targetH . ' px.';
+        return 'La imagen mide ' . $width . '×' . $height . ' px.';
     }
 
     $savedExt = $ext === 'jpeg' ? 'jpg' : $ext;

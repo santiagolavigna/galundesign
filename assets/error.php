@@ -1,3 +1,22 @@
+<?php
+declare(strict_types=1);
+
+$uri = (string) ($_SERVER['REDIRECT_URL'] ?? $_SERVER['REDIRECT_REQUEST_URI'] ?? '');
+$failedSave = str_contains($uri, '/admin/');
+$status = (int) ($_SERVER['REDIRECT_STATUS'] ?? 404);
+if ($status < 400 || $status > 599) {
+    $status = 404;
+}
+http_response_code($status);
+header('Content-Type: text/html; charset=UTF-8');
+
+$title = $failedSave ? 'No se pudo guardar' : 'Esta dirección no está disponible.';
+$text = $failedSave
+    ? 'La pieza no se guardó. Volvé al panel y probá de nuevo.'
+    : 'Volvé al inicio para seguir viendo los trabajos.';
+$href = $failedSave ? '/admin/works.php' : '/';
+$label = $failedSave ? 'Volver al panel' : 'Volver al inicio';
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -45,9 +64,9 @@
 </head>
 <body>
     <main>
-        <h1>Esta dirección no está disponible.</h1>
-        <p>Volvé al inicio para seguir viendo los trabajos.</p>
-        <a href="/">Volver al inicio</a>
+        <h1><?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?></h1>
+        <p><?= htmlspecialchars($text, ENT_QUOTES, 'UTF-8') ?></p>
+        <a href="<?= htmlspecialchars($href, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($label, ENT_QUOTES, 'UTF-8') ?></a>
     </main>
 </body>
 </html>
