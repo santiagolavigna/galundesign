@@ -8,6 +8,7 @@ function public_head(string $title, int $depth = 0): void
     $up = $depth > 0 ? str_repeat('../', $depth) : '';
     $buyer = buyer_id() > 0;
     $account = $depth === 0 ? 'cuenta/' : '';
+    $here = basename((string) ($_SERVER['SCRIPT_NAME'] ?? ''));
     echo '<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">';
     echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
     echo '<title>' . e($title) . ' — ' . e(brand_name()) . '</title>';
@@ -20,17 +21,21 @@ function public_head(string $title, int $depth = 0): void
     echo '<script src="' . e($up . media_src('assets/js/nav.js')) . '" defer></script>';
     echo '</head><body class="catalog-body">';
     echo '<header class="site-header is-scrolled"><a class="logo" href="' . e($up) . 'index.php">' . e(brand_name()) . '</a>';
+    echo '<div class="site-tools">';
+    if (!$buyer) {
+        echo '<a class="enter-link" href="' . e($account) . 'login.php">Entrar</a>';
+    }
     echo '<button class="nav-toggle" type="button" aria-expanded="false">Menú</button>';
     echo '<nav class="site-nav" aria-label="Secciones">';
     echo '<a href="' . e($up) . 'index.php">Inicio</a>';
-    echo '<a href="' . e($up) . 'catalogo.php">Catálogo</a>';
+    if ($here !== 'catalogo.php') {
+        echo '<a href="' . e($up) . 'catalogo.php">Catálogo</a>';
+    }
     if ($buyer) {
         echo '<a href="' . e($account) . 'compras.php">Mis compras</a>';
         echo '<a href="' . e($account) . 'logout.php">Salir</a>';
-    } else {
-        echo '<a href="' . e($account) . 'login.php">Entrar</a>';
     }
-    echo '</nav></header><main class="catalog">';
+    echo '</nav></div></header><main class="catalog">';
 }
 
 function public_foot(): void

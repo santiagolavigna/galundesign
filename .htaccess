@@ -1,7 +1,16 @@
 # El panel ya fuerza HTTPS. Estos archivos no se sirven.
+Options -Indexes
 ErrorDocument 403 /assets/error.php
 ErrorDocument 404 /assets/error.php
 ErrorDocument 500 /assets/error.php
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Una carpeta sin portada no muestra el sitio ni el listado de archivos.
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteCond %{REQUEST_FILENAME}/index.php !-f
+    RewriteRule ^ - [F,L]
+</IfModule>
 
 <FilesMatch "^(project\.md|AGENTS\.md|CLAUDE\.md|config\.local\.php|config\.example\.php)$">
     Require all denied
