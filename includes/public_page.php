@@ -6,6 +6,7 @@ require_once __DIR__ . '/catalog.php';
 function public_head(string $title, int $depth = 0): void
 {
     $up = $depth > 0 ? str_repeat('../', $depth) : '';
+    $home = $up === '' ? './' : $up;
     $buyer = buyer_id() > 0;
     $account = $depth === 0 ? 'cuenta/' : '';
     $here = basename((string) ($_SERVER['SCRIPT_NAME'] ?? ''));
@@ -20,20 +21,20 @@ function public_head(string $title, int $depth = 0): void
     echo '<link rel="stylesheet" href="' . e($up . media_src('assets/css/app.css')) . '">';
     echo '<script src="' . e($up . media_src('assets/js/nav.js')) . '" defer></script>';
     echo '</head><body class="catalog-body">';
-    echo '<header class="site-header is-scrolled"><a class="logo" href="' . e($up) . 'index.php">' . e(brand_name()) . '</a>';
+    echo '<header class="site-header is-scrolled"><a class="logo" href="' . e($home) . '">' . e(brand_name()) . '</a>';
     echo '<div class="site-tools">';
     if (!$buyer) {
-        echo '<a class="enter-link" href="' . e($account) . 'login.php">Iniciar sesión</a>';
+        echo '<a class="enter-link" href="' . e($account) . 'login">Iniciar sesión</a>';
     }
     echo '<button class="nav-toggle" type="button" aria-expanded="false">Menú</button>';
     echo '<nav class="site-nav" aria-label="Secciones">';
-    echo '<a href="' . e($up) . 'index.php">Inicio</a>';
+    echo '<a href="' . e($home) . '">Inicio</a>';
     if ($here !== 'catalogo.php') {
-        echo '<a href="' . e($up) . 'catalogo.php">Catálogo</a>';
+        echo '<a href="' . e($up) . 'catalogo">Catálogo</a>';
     }
     if ($buyer) {
-        echo '<a href="' . e($account) . 'compras.php">Mis compras</a>';
-        echo '<a href="' . e($account) . 'logout.php">Salir</a>';
+        echo '<a href="' . e($account) . 'compras">Mis compras</a>';
+        echo '<a href="' . e($account) . 'logout">Salir</a>';
     }
     echo '</nav></div></header><main class="catalog">';
 }

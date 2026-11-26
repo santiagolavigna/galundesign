@@ -8,7 +8,7 @@ require __DIR__ . '/includes/mercadopago.php';
 $id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT);
 $flyer = is_int($id) ? find_flyer($id) : null;
 if ($flyer === null || (int) $flyer['is_published'] !== 1) {
-    header('Location: catalogo.php');
+    header('Location: catalogo');
     exit;
 }
 
@@ -20,7 +20,7 @@ $canDownload = $buyer !== null && buyer_can_download((int) $buyer['id'], $flyer)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_require();
     if ($buyer === null) {
-        header('Location: cuenta/login.php?next=' . rawurlencode('flyer.php?id=' . (int) $flyer['id']));
+        header('Location: cuenta/login?next=' . rawurlencode('flyer?id=' . (int) $flyer['id']));
         exit;
     }
     $action = (string) ($_POST['action'] ?? '');
@@ -69,7 +69,7 @@ if ($error !== '') {
         <p class="flyer__price"><?= e(money_label((string) $flyer['price'])) ?></p>
         <p>La muestra tiene marca de agua. El PSD se usa en tus fiestas y no se revende como plantilla.</p>
         <?php if ($canDownload): ?>
-            <p><a class="btn" href="descarga.php?id=<?= (int) $flyer['id'] ?>">Descargar PSD</a></p>
+            <p><a class="btn" href="descarga?id=<?= (int) $flyer['id'] ?>">Descargar PSD</a></p>
         <?php else: ?>
             <form method="post" class="stack">
                 <input type="hidden" name="csrf" value="<?= e(csrf_token()) ?>">

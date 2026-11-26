@@ -7,8 +7,8 @@ require __DIR__ . '/includes/catalog.php';
 $buyer = current_buyer();
 $id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT);
 if ($buyer === null) {
-    $next = is_int($id) ? 'descarga.php?id=' . $id : 'cuenta/compras.php';
-    header('Location: cuenta/login.php?next=' . rawurlencode($next));
+    $next = is_int($id) ? 'descarga?id=' . $id : 'cuenta/compras';
+    header('Location: cuenta/login?next=' . rawurlencode($next));
     exit;
 }
 $flyer = is_int($id) ? find_flyer($id) : null;

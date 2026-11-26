@@ -6,7 +6,7 @@ require __DIR__ . '/../includes/public_page.php';
 
 $buyer = current_buyer();
 if ($buyer === null) {
-    header('Location: login.php');
+    header('Location: login');
     exit;
 }
 
@@ -44,12 +44,12 @@ public_head('Mis compras', 1);
     <?php foreach ($owned as $item): ?>
         <p>
             <?= e((string) $item['title']) ?> · <?= e(money_label((string) $item['unit_price'])) ?>
-            · <a href="../descarga.php?id=<?= (int) $item['id'] ?>">Descargar PSD</a>
+            · <a href="../descarga?id=<?= (int) $item['id'] ?>">Descargar PSD</a>
         </p>
     <?php endforeach; ?>
     </div>
 <?php endif; ?>
 <?php if ($open): ?>
-    <p><a class="btn" href="../catalogo.php">Ver el catálogo</a></p>
+    <p><a class="btn" href="../catalogo">Ver el catálogo</a></p>
 <?php endif; ?>
 <?php public_foot();

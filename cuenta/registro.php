@@ -5,12 +5,12 @@ require __DIR__ . '/../includes/init.php';
 require __DIR__ . '/../includes/public_page.php';
 
 if (buyer_id() > 0) {
-    header('Location: ' . site_url('cuenta/compras.php'));
+    header('Location: ' . site_url('cuenta/compras'));
     exit;
 }
 
 $error = '';
-$next = safe_next((string) ($_GET['next'] ?? $_POST['next'] ?? 'cuenta/compras.php'));
+$next = safe_next((string) ($_GET['next'] ?? $_POST['next'] ?? 'cuenta/compras'));
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_require();
     $password = (string) ($_POST['password'] ?? '');

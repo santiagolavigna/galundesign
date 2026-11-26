@@ -46,7 +46,7 @@ function mp_call(string $method, string $path, ?array $body = null): array
 
 function mp_preference(int $orderId, string $title, string $price): string
 {
-    $back = site_url('cuenta/compras.php');
+    $back = site_url('cuenta/compras');
     $payload = [
         'items' => [[
             'title' => $title,
@@ -84,7 +84,7 @@ function mp_plan_ready(array $plan): string
             'transaction_amount' => (float) $plan['price'],
             'currency_id' => 'ARS',
         ],
-        'back_url' => site_url('cuenta/compras.php'),
+        'back_url' => site_url('cuenta/compras'),
     ]);
     $id = (string) ($created['id'] ?? '');
     if ($id === '') {
@@ -106,7 +106,7 @@ function mp_subscribe(int $subscriptionId, array $plan, string $email): string
         'reason' => (string) $plan['name'],
         'external_reference' => 'sub:' . $subscriptionId,
         'payer_email' => $email,
-        'back_url' => site_url('cuenta/compras.php'),
+        'back_url' => site_url('cuenta/compras'),
         'status' => 'pending',
     ]);
     $mpId = (string) ($response['id'] ?? '');

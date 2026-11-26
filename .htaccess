@@ -1,11 +1,27 @@
 # El panel ya fuerza HTTPS. Estos archivos no se sirven.
-Options -Indexes
+Options -Indexes -MultiViews
 ErrorDocument 403 /assets/error.php
 ErrorDocument 404 /assets/error.php
 ErrorDocument 500 /assets/error.php
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
+
+    # La dirección pública no muestra .php. El panel, la API y la página de error quedan igual.
+    RewriteCond %{ENV:REDIRECT_STATUS} ^$
+    RewriteCond %{REQUEST_URI} ^/(.+/)?index\.php$
+    RewriteRule ^index\.php$ /%1 [R=301,L]
+
+    RewriteCond %{ENV:REDIRECT_STATUS} ^$
+    RewriteCond %{REQUEST_URI} !/(?:admin|api|assets)/
+    RewriteCond %{REQUEST_URI} ^(.+)\.php$
+    RewriteRule ^(.+)\.php$ %1 [R=301,L,NC,QSA]
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteRule ^(.+?)/?$ $1.php [L]
+
     # Una carpeta sin portada no muestra el sitio ni el listado de archivos.
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteCond %{REQUEST_FILENAME}/index.php !-f

@@ -13,8 +13,8 @@ $plan = monthly_plan();
     <form method="dialog">
         <h2>Iniciar sesión</h2>
         <div class="gate__actions">
-            <a class="btn" href="cuenta/login.php">Iniciar sesión</a>
-            <a class="btn btn--quiet" href="cuenta/registro.php">Crear cuenta</a>
+            <a class="btn" href="cuenta/login">Iniciar sesión</a>
+            <a class="btn btn--quiet" href="cuenta/registro">Crear cuenta</a>
         </div>
         <button class="gate__close" type="submit">Ver el catálogo</button>
     </form>
@@ -34,7 +34,7 @@ $plan = monthly_plan();
 <?php else: ?>
     <div class="catalog__grid">
     <?php foreach ($flyers as $flyer): ?>
-        <a class="catalog__card" href="flyer.php?id=<?= (int) $flyer['id'] ?>">
+        <a class="catalog__card" href="flyer?id=<?= (int) $flyer['id'] ?>">
             <img src="<?= e(media_src((string) $flyer['preview_path'])) ?>" alt="">
             <span><?= e((string) $flyer['title']) ?></span>
             <strong><?= e(money_label((string) $flyer['price'])) ?></strong>

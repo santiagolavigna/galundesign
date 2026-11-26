@@ -426,10 +426,10 @@ function reference_target(string $reference): array
 function safe_next(string $value): string
 {
     if ($value === '' || str_contains($value, '://') || str_contains($value, '//') || str_contains($value, '\\')) {
-        return 'compras.php';
+        return 'cuenta/compras';
     }
     if (!preg_match('#^[a-z0-9_./?=&%-]+$#i', $value)) {
-        return 'compras.php';
+        return 'cuenta/compras';
     }
 
     return $value;
