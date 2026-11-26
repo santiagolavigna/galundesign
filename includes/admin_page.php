@@ -17,6 +17,8 @@ function admin_head(string $title): void
     echo '<a href="visuals.php">Visuales</a>';
     echo '<a href="clients.php">Clientes</a>';
     echo '<a href="settings.php">Contacto</a>';
+    echo '<a href="flyers.php">Flyers</a>';
+    echo '<a href="sales.php">Cobros</a>';
     echo '<a href="logout.php">Salir</a>';
     echo '</nav></header><main class="wrap">';
     $flash = take_flash();

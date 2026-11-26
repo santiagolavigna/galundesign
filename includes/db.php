@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-function db(): PDO
+function app_config(): array
 {
-    static $pdo = null;
-    if ($pdo instanceof PDO) {
-        return $pdo;
+    static $config = null;
+    if (is_array($config)) {
+        return $config;
     }
 
     $configPath = dirname(__DIR__) . '/config.local.php';
@@ -13,7 +13,20 @@ function db(): PDO
         throw new RuntimeException('Falta config.local.php');
     }
 
-    $config = require $configPath;
+    $loaded = require $configPath;
+    $config = is_array($loaded) ? $loaded : [];
+
+    return $config;
+}
+
+function db(): PDO
+{
+    static $pdo = null;
+    if ($pdo instanceof PDO) {
+        return $pdo;
+    }
+
+    $config = app_config();
     $pdo = new PDO(
         sprintf(
             'mysql:host=%s;dbname=%s;charset=utf8mb4',

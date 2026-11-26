@@ -46,6 +46,7 @@ $whatsappHref = $home['whatsapp_href'];
             <a href="#visuales">Visuales</a>
             <a href="#clientes">Clientes</a>
             <a href="#contacto">Contacto</a>
+            <a href="catalogo.php">Catálogo</a>
         </nav>
     </header>
 

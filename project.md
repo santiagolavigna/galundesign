@@ -6,7 +6,7 @@
 ## Qué es
 
 - **Cliente**: Galun Design
-- **Descripción**: landing de una sola página, visualmente extrema y corta. Intro a pantalla completa con foto que se parte al medio al entrar, bloque de últimos trabajos (fotos y reels cargados desde un backoffice) y franja de contacto (WhatsApp y redes). Sin blog, sin tienda, sin formulario de leads.
+- **Descripción**: landing de una sola página, visualmente extrema y corta. Intro a pantalla completa con foto que se parte al medio al entrar, bloque de últimos trabajos (fotos y reels cargados desde un backoffice) y franja de contacto (WhatsApp y redes). Sin blog y sin formulario de leads. La home sigue siendo solo el portfolio. Un catálogo de flyers aparte está diseñado y no está implementado (`docs/features/catalogo-flyers.md`).
 - **URL producción**: https://galundesign.com
 - **Clase**: no crítico. Queda en Hostinger compartido. No va al servidor dedicado.
 - **Hosting**: Hostinger compartido. El sitio se publica solo al pushear `main` en GitHub (`santiagolavigna/galundesign`). Credenciales en hPanel, no en el repo.
@@ -42,8 +42,9 @@ La clave no se escribe en este archivo.
 | 7. Admin: clientes | hecho | Nombre, @, JPG 400×400, link de Instagram. |
 | 8. Home viva y carrusel | hecho | Carrusel en Trabajos, Visuales y Clientes. |
 | 9. Mensajes y errores | hecho | Sin 403 crudo. El admin dice si se guardó o por qué no. |
+| 10. Catálogo de flyers | en producción, sin cobro | Página `catalogo.php`. PSD con marca de agua. Cuentas y panel de cobros. Mercado Pago espera las tres claves en el servidor. |
 
-Orden: 2 puede salir solo. 3 antes de 4. 4 antes de 5, 6 y 7. 8 al final. El detalle está en `docs/features/backoffice-y-carrusel.md`.
+Orden: 2 puede salir solo. 3 antes de 4. 4 antes de 5, 6 y 7. 8 al final. El detalle de la home está en `docs/features/backoffice-y-carrusel.md`. El catálogo, en `docs/features/catalogo-flyers.md`: primero la página y la carga, después el cobro de un flyer, después la membresía, y el editor solo si la prueba cierra.
 
 ## Esquema de datos (resumen)
 
@@ -53,6 +54,7 @@ Orden: 2 puede salir solo. 3 antes de 4. 4 antes de 5, 6 y 7. 8 al final. El det
 - `clients` — perfiles. Nombre, @, foto, URL.
 - `settings` — una sola fila (`id = 1`): marca, frase, WhatsApp, redes.
 - `login_attempts` — IP + fecha para frenar fuerza bruta. No guarda contraseñas.
+- Catálogo: `buyers`, `flyers`, `plans`, `orders`, `order_items`, `subscriptions`, `payments`. El precio va en `DECIMAL(12,2)` y la venta guarda el precio cobrado. El comprador no comparte tabla con el admin. Migración `sql/updates/2026-11-26-catalogo-flyers.sql`, aplicada en local y en producción el 26 nov 2026, después de un backup.
 
 Detalle de columnas: ver sección «Esquema» más abajo. Motor InnoDB, `utf8mb4_unicode_ci`.
 
@@ -278,9 +280,22 @@ Sin tablas nuevas. El stack no cambia.
 
 Orden: se puede hacer solo, después del módulo 8.
 
+### 10. Catálogo de flyers
+
+Publicado el 26 nov 2026. Los precios los carga el admin. Faltan las claves de Mercado Pago en el `config.local.php` del servidor (`mp_access_token`, `mp_public_key`, `mp_webhook_secret`). Sin esas claves el botón avisa que el cobro no está conectado.
+
+La home no cambia de estructura. Se agrega un link del nav a `catalogo.php`. Galun sube, por flyer, una imagen y el PSD. En la página la imagen sale con marca de agua. El PSD no tiene URL pública. El comprador lo usa en sus fiestas y no lo revende como plantilla.
+
+Cobro con Mercado Pago, en pesos: Checkout Pro para un flyer, suscripción para el mes. El comprador autoriza el débito una vez en Mercado Pago. Galun no manda un link cada mes y el sitio no guarda la tarjeta. Con la membresía al día se descarga cualquier publicado, también los nuevos. Si el mes no se acredita, ese día se apagan las descargas. El mes ya cobrado dura hasta el día que cubre. El precio de cada flyer y el de la membresía los escribe el admin; la venta guarda el número cobrado. En el mismo panel se consultan los registrados y los cobros, con la suma de lo acreditado en el mes. El sistema no calcula ni descuenta un porcentaje. El token va en `config.local.php`. Un webhook acredita la venta una sola vez. La primera entrega es la descarga del PSD.
+
+No se programa un Photoshop. Adobe no se puede incrustar para un visitante sin cuenta de Adobe. La opción posterior es Photopea, que abre el PSD en el navegador, y solo después de probar un archivo real y de leer sus condiciones. Si no sirve, se venden los PSD igual.
+
+Detalle, esquema y preguntas: `docs/features/catalogo-flyers.md`.
+
 ## Riesgos
 
 - **Uploads**: ejecución de PHP en `uploads/`, MIME mentido, archivos enormes. Whitelist + MIME + nombre aleatorio + `.htaccess` + límite de tamaño en PHP y en la app.
+- **Catálogo**: el PSD no puede quedar en una URL abierta. El webhook de Mercado Pago tiene que ser idempotente. Un PSD pesado puede recibir el mismo corte 403 que ya se vio en una subida de unos 2 MB; hay que probar un archivo real en el hosting antes de prometer la carga semanal.
 - **Video en hosting compartido**: el tope es 40 MB y el admin lo exporta él. En Hostinger, `upload_max_filesize` y `post_max_size` tienen que estar en 48M o más. No instalar ffmpeg para este flujo.
 - **XSS**: título, frase y URLs salen con `htmlspecialchars`. Las URLs de redes se aceptan solo si el esquema es `https`.
 - **CSRF y sesión**: todo POST del admin lleva token. Cookie de sesión `HttpOnly`, `SameSite=Lax`, `Secure` en producción.

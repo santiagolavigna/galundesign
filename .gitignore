@@ -5,9 +5,13 @@ config.local.php
 !/uploads/works/
 !/uploads/visuals/
 !/uploads/clients/
+!/uploads/flyers/
+!/uploads/flyers/previews/
+!/uploads/flyers/sources/
 !/uploads/**/.htaccess
 !/uploads/index.html
 !/uploads/**/index.html
 /logs/*.log
 node_modules/
 .claude/settings.local.json
+.kit-backup/

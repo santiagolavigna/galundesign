@@ -888,3 +888,118 @@ html.is-reveal.is-playing .hero__down { visibility: visible; }
     .piece__video,
     .site-header { transition: none; }
 }
+
+.catalog-body { padding-top: var(--header-h); }
+
+.catalog {
+    width: min(1120px, calc(100% - (var(--pad) * 2)));
+    margin: 0 auto;
+    padding: 28px 0 72px;
+}
+
+.catalog__lead { max-width: 38rem; color: var(--color-muted); }
+
+.catalog__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-top: 28px;
+}
+
+.catalog__card {
+    display: grid;
+    gap: 8px;
+    color: inherit;
+}
+
+.catalog__card img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    background: var(--color-surface);
+}
+
+.catalog__card span { font-weight: 600; }
+
+.catalog__card strong {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+}
+
+.catalog__note {
+    padding: 12px 14px;
+    border-left: 3px solid var(--color-accent);
+    background: var(--color-surface);
+}
+
+.catalog__note--bad { border-left-color: #ff5a36; }
+
+.flyer {
+    display: grid;
+    gap: 22px;
+}
+
+.flyer img {
+    width: 100%;
+    background: var(--color-surface);
+}
+
+.flyer h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 6vw, 3.4rem);
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
+}
+
+.flyer__price {
+    margin: 8px 0;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+}
+
+.btn,
+.account button,
+.flyer button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 18px;
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.btn--quiet,
+.flyer .btn--quiet {
+    background: transparent;
+    color: var(--color-text);
+    border: 1px solid var(--color-line);
+}
+
+.account,
+.flyer .stack { display: grid; gap: 14px; max-width: 28rem; }
+
+.account input,
+.flyer input {
+    width: 100%;
+    min-height: 44px;
+    margin-top: 6px;
+    padding: 0 12px;
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+    color: var(--color-text);
+}
+
+@media (min-width: 700px) {
+    .catalog__grid { grid-template-columns: 1fr 1fr; }
+    .flyer { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr); align-items: start; }
+}
+
+@media (min-width: 1100px) {
+    .catalog__grid { grid-template-columns: 1fr 1fr 1fr; }
+}
