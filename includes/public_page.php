@@ -23,7 +23,7 @@ function public_head(string $title, int $depth = 0): void
     echo '<header class="site-header is-scrolled"><a class="logo" href="' . e($up) . 'index.php">' . e(brand_name()) . '</a>';
     echo '<div class="site-tools">';
     if (!$buyer) {
-        echo '<a class="enter-link" href="' . e($account) . 'login.php">Entrar</a>';
+        echo '<a class="enter-link" href="' . e($account) . 'login.php">Iniciar sesión</a>';
     }
     echo '<button class="nav-toggle" type="button" aria-expanded="false">Menú</button>';
     echo '<nav class="site-nav" aria-label="Secciones">';

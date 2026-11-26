@@ -11,10 +11,9 @@ $plan = monthly_plan();
 <?php if (buyer_id() === 0): ?>
 <dialog class="gate">
     <form method="dialog">
-        <h2>Entrá</h2>
-        <p>Creá tu cuenta para guardar lo que elijas, o cerrá esto y mirá el catálogo.</p>
+        <h2>Iniciar sesión</h2>
         <div class="gate__actions">
-            <a class="btn" href="cuenta/login.php">Entrar</a>
+            <a class="btn" href="cuenta/login.php">Iniciar sesión</a>
             <a class="btn btn--quiet" href="cuenta/registro.php">Crear cuenta</a>
         </div>
         <button class="gate__close" type="submit">Ver el catálogo</button>
